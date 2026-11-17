@@ -12,7 +12,7 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 | 1 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | Ama2352 | Nhóm trưởng; merge + build UI + nộp bài |
-| 2 | | | | | |
+| 2 | Nguyễn Thảo Quyên | 2A202603895 | thquyen100678@gmail.com | carwyn100678 | orchestrator + handoff |
 | 3 |  Vũ Ngọc Quỳnh Anh  | 2A202603875 | 26ai.anhvnq@vinuni.edu.vn  | qavu2407-lang | single |
 
 Gợi ý chia vai:
@@ -27,6 +27,7 @@ Gợi ý chia vai:
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
 | Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638` | `src/tests/test_single_react.py` |
+| Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Sang | Nhóm trưởng; merge + build UI + nộp bài | Chưa cập nhật | Chưa cập nhật test mới cho phần việc UI |
 
 ## Cá nhân
@@ -64,3 +65,30 @@ Mỗi thành viên tạo báo cáo riêng theo dạng `report/team/<MSSV>_<HoTen
 - Commit/PR xây dựng UI, cập nhật tài liệu và tích hợp: chưa cập nhật.
 - Test mới, kết quả chạy UI với dữ liệu mẫu và màn hình crash safety: chưa cập nhật.
 - `decision_adr.md`, báo cáo cá nhân, kết quả `check_submission` và link nộp LMS: chưa cập nhật.
+
+## 2A202603895_NguyenThaoQuyen
+
+### Phần việc phụ trách
+
+- Shape C `orchestrator` (`src/lab8/shapes/orchestrator.py`): orchestrator, investigator chỉ có tool đọc, handoff allowlist. Làm trên nhánh `thaoquyen`.
+- Test riêng của shape: `src/tests/test_orchestrator_extra.py`.
+- `report/team/research_card.md` (câu R2, kèm ablation orchestrator so với swarm).
+- Báo cáo cá nhân: `report/team/2A202603895_NguyenThaoQuyen.md`.
+
+### Đóng góp cụ thể
+
+| Checkpoint | Công việc của Thảo Quyên | Kết quả |
+| --- | --- | --- |
+| CP1 | Cài môi trường, chạy `smoke` và `pytest -q`; đọc luật nghiệp vụ, contract và `swarm_reference.py`. | Smoke pass; bộ student ra 186 failed, 62 passed như mốc đề bài. |
+| CP2 | Viết `orchestrator.py`: handoff bằng `make_handoff` với ba tool đọc, `run_readonly_investigators`, quote bằng `compute_compensation` trên order row, ghi refund qua `durability.issue_refund` với quote đầy đủ. | Ma trận student của orchestrator: 62 passed. |
+| CP3 | Truyền `crash_at` vào `issue_refund`, không bắt `InjectedCrash`. Trace chỉ ghi handoff đã sanitize, không ghi claim row hay ticket. | T11 và T12 xanh; trace sạch secret. |
+| CP4 | Thêm 57 test: trace và handoff, crash ở 3 điểm rồi resume, approval hỏng hoặc mượn của claim khác, approval thấp hơn quote, trần theo đơn, ticket nói quá, không in ra stdout. | `test_orchestrator_extra.py`: 57 passed; không có `CANARY_SECRET_` trong trace. |
+| CP5 | Điền `research_card.md` (R2) và chạy ablation orchestrator so với swarm. Viết báo cáo cá nhân. | Orchestrator pass rate 1,000, pass^5 1,000 trên 70 trial; swarm 0,986 và 0,929. |
+
+- Chưa làm: tự kiểm trên `student_drop/` vì thư mục này do giảng viên phát cuối buổi.
+
+### Bằng chứng
+
+- Commit: `e95d016` (shape orchestrator), `a9450b5` (test riêng), `2c8190a` (research card và ablation), `b098933` và `af42422` (báo cáo cá nhân). PR #4 đã merge vào `main`.
+- Test: `src/tests/test_orchestrator_extra.py`; `python -m pytest -q -m student -o addopts=` cho orchestrator ra 62 passed.
+- Report sinh bằng công cụ: `src/reports/research_ablation_r2.json`.
