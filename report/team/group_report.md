@@ -36,7 +36,7 @@ Shape `single` chạy một vòng ReAct bằng `lab8.runtime.run_react` với `m
 
 **Trace.** Ghi các event `react_step` (số bước và tên tool), `order` (order đã lọc field qua `lookup_order`), `refund_history` (chỉ số tiền đã hoàn), `quote` và `decision`. Cố ý **không** ghi ticket, `principal_id`, dòng claim hay order gốc, vì claim row có `parent_secret` còn order row có SĐT, địa chỉ, ghi chú nội bộ và tên hàng.
 
-**Kết quả trên bộ public** (`src/reports/benchmark.json`, 14 claim × 5 seed): pass rate 1.000, pass^5 1.000, variance 0, cost/success 39.41 VND (mô phỏng), mean steps 8.21, p95 steps 9. "Steps" ở đây là số event trong trace, không phải số bước ReAct. So với workflow (34.29 VND), single đắt hơn khoảng 15% vì gọi MockLLM ở mỗi bước, nhưng không đúng hơn.
+**Kết quả trên bộ public** (`src/reports/benchmark.json`, 14 claim × 5 seed): pass rate 1.000, pass^5 1.000, variance 0, cost/success 39.41 VND (mô phỏng), mean steps 8.21, p95 steps 9. "Steps" ở đây là số event trong trace, không phải số bước ReAct. Workflow (34.29 VND) rẻ hơn single khoảng 13% vì single gọi MockLLM ở mỗi bước, trong khi độ đúng của hai shape như nhau.
 
 Handoff dùng allowlist và giới hạn tool đọc; không chuyển parent secret, header hay lịch sử thô. Trace ghi các event cần giải thích như claim view đã lọc, quote, quyết định, ReAct step hoặc handoff đã sanitize; không ghi raw claim/order, ticket hay PII. Kết quả đi qua `finish()` để tạo trace đúng contract.
 
