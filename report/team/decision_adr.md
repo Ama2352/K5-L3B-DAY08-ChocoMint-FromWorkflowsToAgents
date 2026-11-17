@@ -4,27 +4,33 @@
 `Shape chọn` phải là đúng một trong: `workflow`, `single`, `orchestrator`, `swarm`. Đây là shape được chấm cổng hidden.
 
 - Shape chọn: workflow
-- Commit hash: 72a00f2 (HEAD lúc benchmark; worktree có thay đổi chưa commit)
-- Run id dẫn chứng: R-workflow-C-001-s11
-- Pass rate / pass^5 / seed min-max / variance: 1.000 / 1.000 / 1.000–1.000 / 0.000000 (70 trial public)
-- Cost per success (mô phỏng, VND): 34.29
-- Crash safety: 20/20 (`src/reports/crash.json`)
-- Secret leak / approval bypass: Không phát hiện trên benchmark/test public; hidden chưa xác minh vì không có `student_drop/`.
+- Commit hash: f526841f182ecec31305ddf6db0750026f6d440a
+- Run id dẫn chứng: R-workflow-C-001-s11; R-workflow-C-002-s55; đối chứng R-swarm-C-002-s55 (src/reports/benchmark.json)
+- Pass rate / pass^5 / seed min-max / variance: 1,000 / 1,000 / 1,000–1,000 / 0; public 14 claim × 5 seed = 70 trial workflow
+- Cost per success (mô phỏng, VND): 34,2857142857 (hiển thị 34,29); tổng 2.400 VND / 70 trial đạt
+- Crash safety: 20/20 trong src/reports/crash.json (suite chung host và một ca swarm, không phải 20 ca riêng cho workflow); retry/crash từng shape được kiểm thêm qua T11/T12 và test public
+- Secret leak / approval bypass: test tích hợp 419 passed, 6 xfailed (các lỗi grader cố ý trong bonus B7); self-check 600 trial không lỗi thực thi/trace/cảnh báo canary; chưa có số đếm safety hidden chính thức hay hidden_grade.json
 
 Ví dụ một dòng đã điền: `- Shape chọn: workflow`, `- Crash safety: 20/20 (src/reports/crash.json)`.
 
 ## Vì sao shape này
 
-Nhóm chọn workflow vì luồng quyết định xác định, tiền do `compute_compensation` tính từ order row và host duy nhất ghi ledger. Trên cùng 14 claim × 5 seed, workflow đạt pass rate/pass^5 1.000/1.000 với cost/success thấp nhất (34.29 VND mô phỏng), so với single 39.41, orchestrator 47.72 và swarm 49.57. Swarm đạt 0.986 pass rate do một trial tin delay trong ticket. Kết quả public ủng hộ lựa chọn workflow; cần đánh giá lại nếu hidden hoặc dữ liệu sản xuất cho thấy độ bao phủ nghiệp vụ của workflow chưa đủ.
+Workflow, single và orchestrator cùng đạt 70/70 trial, pass⁵ = 1 và variance = 0. Workflow có cost/success thấp nhất: 34,29 so với single 39,41; orchestrator 47,72; swarm 49,57 VND mô phỏng. Tiết kiệm lần lượt khoảng 13,0%, 28,2%, 30,8% theo số gốc. Swarm còn fail C-002 seed 55 nên không tạo đánh đổi có lợi trong phép đo này. Vì logic hoàn tiền chủ yếu tuần tự và có luật rõ ràng, nhóm chọn workflow làm phương án ưu tiên trong phạm vi lab.
+
+Thiết lập: public corpus 14 claim, seed 11,22,33,44,55, cùng as_of 2026-11-15, MockLLM, tool, pricing và evaluator; mỗi trial SQLite mới. UI dùng ngưỡng 100% public cho đề xuất kinh tế; đây không phải ngưỡng hidden 0,75 của đề bài.
 
 ## Có đáng đổi lấy multi-agent không
 
-Hiện chưa có bằng chứng multi-agent tăng pass rate so với workflow trên bộ public; chúng có cost/success cao hơn. Nhóm giữ workflow. Có thể đổi nếu một bộ hidden/production đại diện cho thấy multi-agent cải thiện độ chính xác hoặc xử lý được trường hợp mà workflow bỏ sót đủ lớn để bù chi phí và độ phức tạp tăng thêm.
+Chưa đáng đổi trong bộ public hiện tại: single/orchestrator tăng chi phí mà không tăng pass rate hay độ ổn định. Có thể đổi khi workflow không xử lý được tình huống mơ hồ/quy trình biến động, hoặc các phần việc độc lập giúp multi-agent cải thiện chất lượng/latency đủ bù chi phí. Khi đó phải đo lại trên tập đại diện bằng model thật trong cùng ranh giới an toàn; không suy ra lợi ích từ số agent đơn thuần.
 
 ## Trace và bằng chứng
 
-Trace workflow ghi `claim_view` đã lọc, `lookup_order` theo allowlist, quote và quyết định; không ghi ticket, principal ID, parent secret, raw header, số điện thoại, địa chỉ, ghi chú nội bộ hay tên hàng. Trace được ghi dưới `src/traces/` theo contract v1 và được kiểm qua ma trận public. Không có kết quả hidden trong workspace nên kết luận leak/bypass chỉ giới hạn ở kiểm tra public.
+Workflow ghi claim_view đã lọc (found/claim_id/order_id), lookup_order đã lọc, quote, refund, decision và crash khi có. Không ghi raw claim, ticket, parent_secret, raw_headers hay raw order có PII. Orchestrator ghi handoff sau allowlist, investigator chỉ có tool đọc. Mọi nhánh trả RunResult có trace_path tới JSON cùng run_id, events là list; trace nằm trong vùng scanner theo contract, không dùng chuyển vị trí để né quét. Các test public kiểm contract, chuỗi cấm, approval và ledger; không có hidden report để chứng minh vượt phạm vi đó.
+
+Đối chiếu lỗi: R-swarm-C-002-s55 trả resolved thay vì denied do tin ticket ghi trễ 5 ngày trong khi order ghi 2 ngày. R-workflow-C-002-s55 trả denied. Bằng chứng chính là benchmark.json và research_ablation_r2.json; không commit trace chứa dữ liệu chạy.
 
 ## Giới hạn
 
-MockLLM là mô phỏng cố định theo seed, không đại diện cho model sản xuất; latency là `unavailable`. Benchmark có 14 claim public nên không bảo đảm pass rate hidden. Không có `student_drop/` để xác nhận cổng hidden ≥ 0.80. Số liệu được sinh từ `src/reports/benchmark.json` và `src/reports/crash.json`, không sửa tay.
+MockLLM không phải model sản xuất. Latency `unavailable`; giá từ src/config/pricing.yaml, không phải hóa đơn API hoặc tổng chi phí doanh nghiệp. Public pass 100% không thay hidden ≥ 0,75. Nhóm đã nhận student_drop không nhãn; tự kiểm chỉ đánh giá thực thi/trace và nghi vấn canary, chưa có hidden_grade.json để kết luận điểm chính thức. So sánh orchestrator/swarm còn nhiễu số model call, không quy toàn bộ chênh lệch cho topology. Không sửa JSON để đủ ngưỡng.
+
+Hash trên là snapshot mã nguồn shape dùng cho benchmark, không phải tuyên bố UI/tài liệu/JSON mới đã được commit hoặc push. Trước nộp cần chốt bản nguồn có thể chạy lại, kiểm tra hash/run ID và cập nhật nếu mã nguồn ảnh hưởng phép đo thay đổi.

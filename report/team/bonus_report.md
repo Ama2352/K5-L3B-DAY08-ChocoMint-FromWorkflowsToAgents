@@ -1,5 +1,7 @@
 # Bonus report: B7
 
+Trạng thái tích hợp: hai hướng B7 của PR #14–#16 được giữ riêng script/test/JSON. PR #16 mở rộng checker tên topic B1–B7, không thay công thức metric hoặc grader. Gate hidden ≥ 0,80 và ba must-pass chưa được giảng viên xác nhận, nên chưa khai đã nhận điểm bonus.
+
 - Topic + nguồn: B7 — kiểm toán grader; *Rethinking Evaluation of MAS Efficiency*, EMNLP 2026, slides 44, 59.
 - CLAIM: Thước đo sai có thể đảo lệch kết luận so sánh shape, dù các shape không đổi.
 - BOUNDARY: Ba hàm `summarize` được cung cấp và các fixture metamorphic tổng hợp; không đánh giá pass rate của hidden pack.
@@ -9,10 +11,11 @@
 
   ```text
   python -m bonus.grader_audit
-  python -m pytest -q tests/test_bonus_grader_audit.py
+  python -m pytest -q tests/test_bonus_grader_isolation.py tests/test_bonus_grader_audit.py
+  python -m bonus.grader_audit_report --out reports/bonus_grader_audit.json
   ```
 
-- File report + run id: `src/reports/bonus_grader_audit.json`; không có run id vì đây là kiểm toán fixture tổng hợp, không chạy một trial shape.
+- File report: `src/reports/bonus_grader_isolation.json` sinh từ `bonus.grader_audit`; không có run id vì kiểm fixture tổng hợp. Audit permutation bổ sung ở `src/reports/bonus_grader_audit.json`, run id `B7-grader-audit-v1`, sinh từ `bonus.grader_audit_report`. Hai script không ghi đè cùng file.
 
 ## Kết quả
 
@@ -35,4 +38,4 @@ Quan hệ mới — thêm trial của shape khác không được đổi bất k
 
 ## Giới hạn
 
-Kết quả chỉ áp dụng cho ba hàm và fixture hiện có; không chứng minh grader nào đúng trên mọi dữ liệu. Fixture không dùng model; các kết luận về hành vi agent thực tế vẫn bị giới hạn bởi MockLLM. Bộ hidden không có trong workspace, nên chưa xác nhận được cổng pass rate hidden ≥ 0.80. Từ `src/`, `python -m pytest -q` đạt 67 passed, 248 deselected.
+Kết quả chỉ áp dụng cho ba hàm và fixture hiện có; không chứng minh grader nào đúng trên mọi dữ liệu. Fixture không dùng model; kết luận về agent vẫn giới hạn bởi MockLLM. Đã có hidden self-check 600 trial không nhãn, nhưng chưa có hidden grade để xác nhận cổng ≥ 0,80. Các ca lỗi grader của audit permutation dùng xfail strict; audit isolation kiểm trực tiếp kết quả lệch dự kiến. Xem submission_audit.md cho số test bản tích hợp.

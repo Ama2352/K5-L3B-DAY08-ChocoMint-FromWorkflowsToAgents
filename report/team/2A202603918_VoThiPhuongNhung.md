@@ -16,10 +16,10 @@ Em phụ trách Shape A — `workflow`, gồm triển khai workflow xác định
 - Hoàn thiện [`workflow.py`](../../src/lab8/shapes/workflow.py): đọc claim qua `get_claim_view`, tra cứu đơn bằng `lookup_order`, tự tính quote từ dữ liệu cấu trúc và gửi nguyên quote cho `issue_refund`. Ticket không quyết định số tiền; host kiểm approval, giới hạn theo đơn và ghi ledger.
 - Truyền `crash_at` vào `issue_refund`; các test T11/T12 xác nhận retry không trả tiền hai lần và crash được ném tiếp.
 - Thêm [`test_workflow_extra.py`](../../src/tests/test_workflow_extra.py) cho approval bị thu hồi, approval thuộc claim khác và đơn đã hoàn đủ.
-- Làm bonus B7: viết [`grader_audit.py`](../../src/bonus/grader_audit.py), thêm [`test_bonus_grader_audit.py`](../../src/tests/test_bonus_grader_audit.py), sinh [`bonus_grader_audit.json`](../../src/reports/bonus_grader_audit.json) và viết [`bonus_report.md`](bonus_report.md). Phân tích ba grader bằng các fixture metamorphic có sẵn và quan hệ mới kiểm tra tính độc lập giữa shape.
+- Làm bonus B7: viết [`grader_audit.py`](../../src/bonus/grader_audit.py), test tích hợp giữ dưới tên [`test_bonus_grader_isolation.py`](../../src/tests/test_bonus_grader_isolation.py), sinh [`bonus_grader_isolation.json`](../../src/reports/bonus_grader_isolation.json) và bổ sung [`bonus_report.md`](bonus_report.md). Đổi tên test/output khi xử lý conflict để không ghi đè audit permutation của PR #14; vẫn cùng topic B7.
 - Kết quả B7: `grader_c` tính trial hạ tầng thành fail (pass rate 0.75 xuống 0.5625); cả ba grader làm `pass_5` từ 0.6667 xuống 0 khi nhân đôi fixture. `grader_a` còn làm lệch thống kê chi phí.
 - Hoàn thiện bằng chứng nhóm bằng benchmark public 4 shape × 14 claim × 5 seed, crash suite 20 điểm và ADR. Từ benchmark, workflow đạt pass rate/pass^5 1.000/1.000, variance 0, cost/success 34.29 VND mô phỏng.
-- CP5/hidden: không có bộ dữ liệu `student_drop/` hoặc kết quả chạy trong workspace hiện tại; vì vậy trạng thái và pass rate hidden chưa thể xác minh, không ghi số liệu.
+- CP5/hidden: PR #14 đã tích hợp hidden_selfcheck.json, 600 trial không nhãn của ba shape, không lỗi thực thi/trace/cảnh báo canary. Không có hidden grade để xác minh pass rate chính thức.
 
 ## 4. Bằng chứng
 
@@ -27,7 +27,7 @@ Các lệnh dưới đây chạy từ thư mục `src/`:
 
 - `python -m pytest -q -m student -o addopts= -k workflow`: 62 passed.
 - `python -m pytest -q tests/test_workflow_extra.py`: 3 passed.
-- `python -m pytest -q tests/test_bonus_grader_audit.py`: 10 passed.
+- `python -m pytest -q tests/test_bonus_grader_isolation.py`: 10 passed (tên sau tích hợp; trước đó là test_bonus_grader_audit.py trên nhánh cá nhân).
 - `python -m pytest -q`: 146 passed, 248 deselected.
 - `python -m pytest -q -m student -o addopts=`: 248 passed, 146 deselected.
 - `python -m lab8.check_submission`: 0 FAIL, 0 WARN.
@@ -50,4 +50,4 @@ Các commit liên quan:
 
 ## 6. Tự đánh giá
 
-Phần workflow, crash/retry, test edge case và bonus B7 đã hoàn thành; toàn bộ checker và test trong workspace đều pass. Kết quả B7 chỉ áp dụng cho ba grader cùng các fixture hiện có, không chứng minh độ đúng trên mọi dữ liệu. Bonus gate về pass rate hidden ≥ 0.80 chưa xác minh được vì không có `student_drop/` trong workspace. Bản báo cáo này được viết lại sau commit `4a275db` và chưa có commit riêng.
+Phần workflow, crash/retry, test edge case và bonus B7 đã hoàn thành; toàn bộ checker và test trong workspace đều pass. Kết quả B7 chỉ áp dụng cho ba grader cùng các fixture hiện có, không chứng minh độ đúng trên mọi dữ liệu. Đã có hidden self-check không nhãn nhưng chưa có hidden grade xác nhận gate ≥ 0.80. Báo cáo được cập nhật khi tích hợp PR #16; các số test trong phần quá trình là snapshot cá nhân, bản nhóm đạt 419 passed, 6 xfailed và 9 test UI pass.

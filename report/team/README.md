@@ -6,6 +6,8 @@
 | `decision_adr.md` | Cả nhóm | `check_submission` đọc bằng máy. Không đổi tên, không xóa dòng nhãn |
 | `research_card.md` | Cả nhóm | `check_submission` đọc bằng máy. Điền cột "Nhóm điền" |
 | `bonus_report.md` | Cả nhóm, chỉ khi làm bonus | Tạo mới theo khung ở cuối [docs/bonus_topics.md](../../docs/bonus_topics.md) |
+| `bonus_report_pending.md` | Ghi chú bổ sung B7 | Phân tích permutation từ PR #15; báo cáo chính ở bonus_report.md. Checker được sửa tương thích B7 trong PR #16; gate hidden vẫn chờ. |
+| `submission_audit.md` | Tích hợp | Bằng chứng kiểm tra SUBMISSION, phần bonus đang chờ và xác nhận LMS còn thiếu. |
 | `MSSV_HoTen.md` | Từng thành viên | File mẫu. Mỗi người copy thành file riêng |
 
 Mỗi thành viên tạo thêm một báo cáo cá nhân:

@@ -34,6 +34,10 @@ Tôi làm shape B `single`: một agent ReAct, tối đa 8 bước, trong file `
 
 ## 5. Công cụ AI đã dùng
 
+### Cập nhật tích hợp PR #14–#15
+
+PR #14 bổ sung `src/tests/test_bonus_grader_audit.py`, script `src/bonus/grader_audit_report.py`, report B7 và hidden self-check; PR #15 bổ sung báo cáo bonus. Test bonus có 7 passed, 6 xfailed, các xfail strict ghi nhận lỗi grader cố ý. Toàn bộ bản tích hợp nhóm đạt 419 passed, 6 xfailed. Hidden self-check có 600 trial không nhãn, không lỗi thực thi/trace/cảnh báo canary; không phải điểm hidden chính thức. PR #16 bổ sung test/JSON isolation riêng và sửa checker nhận tên B7. Báo cáo chính ở `bonus_report.md`; gate hidden bonus vẫn chờ. Kết quả kiểm tra tích hợp này do Codex chạy, không thay cho xác nhận thao tác cá nhân ở phần quá trình trên.
+
 Tôi dùng Claude Code để đọc tài liệu của lab, gợi ý code cho `single.py`, viết test và lập checklist. Tôi tự kiểm lại bằng cách:
 
 - Đọc lại code, đối chiếu với `docs/business_rules.md` và `docs/contracts.md`.

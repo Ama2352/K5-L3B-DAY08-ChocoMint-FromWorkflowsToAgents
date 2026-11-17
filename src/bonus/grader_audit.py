@@ -193,7 +193,8 @@ def build_audit() -> dict[str, Any]:
 
 def main() -> None:
     root = Path(__file__).resolve().parents[1]
-    output = root / "reports" / "bonus_grader_audit.json"
+    # Keep the isolation audit separate from the permutation audit in PR #14.
+    output = root / "reports" / "bonus_grader_isolation.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         json.dumps(build_audit(), ensure_ascii=False, indent=2) + "\n",
