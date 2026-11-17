@@ -14,7 +14,7 @@
 | Giới hạn trang | Xuất thử bản cuối bằng Chrome headless A4, Segoe UI 10pt, lề 14mm: báo cáo nhóm 3/5 trang, bonus 2/2 trang. Thay kiểu in có thể đổi số trang. |
 | File cấm / credential | Không có trace, SQLite, student_drop, .venv, .env hoặc instructor pack trong danh sách Git theo dõi. Không thấy mẫu AWS access key, OpenAI project key hoặc private key trong lần quét file hiện tại; không phải bảo đảm toàn bộ lịch sử không có secret. |
 | Hidden self-check tùy chọn | PR #14 đưa reports/hidden_selfcheck.json vào main: 600 trial không nhãn, toàn bộ reason unlabeled; không lỗi thực thi/trace/cảnh báo canary. Không có điểm hidden chính thức. |
-| Bonus | Có code, hai bộ test/JSON và bonus_report.md; phần permutation ở bonus_report_pending.md. Gate hidden ≥ 0,80 và điểm bonus vẫn chờ giảng viên. |
+| Bonus | Có code, hai bộ test/JSON và một bonus_report.md gộp cả permutation/isolation, kết luận và giới hạn. Gate hidden ≥ 0,80 và điểm bonus vẫn chờ giảng viên. |
 | Checker bonus | PR #16 mở rộng tên B1–B7, không đổi metric/grader/host. Checker local nhận B7; checker gốc phía giảng viên có thể vẫn cần cập nhật tương thích. |
 | LMS | Sang xác nhận đã nộp link. Chưa có xác nhận của Nhung, Quỳnh Anh, Thảo Quyên và Linh; từng người phải tự nộp cùng link trước deadline. |
 
