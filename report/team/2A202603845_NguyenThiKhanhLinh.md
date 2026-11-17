@@ -1,6 +1,6 @@
 # Báo cáo cá nhân — 2A202603845_NguyenThiKhanhLinh
 
-Trạng thái ngày 17/11/2026 (GMT+7): hoàn thành phần có thể kiểm chứng độc lập; các phần tích hợp chờ merge A/B/C.
+Trạng thái cập nhật ngày 17/11/2026 (GMT+7): báo cáo đã merge qua PR #12; test/harness và benchmark riêng được tích hợp nguyên bản từ `268d137` vào main tại `f526841`, giữ tác giả gốc. Các số liệu ở phần quá trình bên dưới là snapshot lịch sử, không phải trạng thái cuối nhánh nộp.
 
 ## 1. Thông tin thành viên
 
@@ -17,7 +17,7 @@ Phụ trách Ledger + Crash + Benchmark + Báo cáo.
 
 ## 3. Đóng góp cụ thể
 
-Chưa có commit đóng góp. Nhánh hiện tại là local `linh`, được tạo từ `034c6c421c198dae67a9211d15e2587d5a378972` sau khi kiểm tra checkout ban đầu ở `main` và chưa có ref `linh` trong các nhánh đã lưu. Hash này là commit nền của đề, không phải commit chứa phần việc mới. Không commit, push hoặc merge trong lần làm việc này.
+Commit đóng góp gốc: `268d137` trên nhánh `linh`; bản tích hợp kỹ thuật trên main là `f526841`. Báo cáo được đưa vào main qua PR #12 (`be7007e`, merge `9b867dc`). Commit nền `034c6c4` là mã đề, không phải đóng góp cá nhân.
 
 - Bổ sung `src/tests/test_linh_ledger_swarm.py`, gồm 18 test case: 6 tổ hợp crash/reopen/retry cho refund bị cap và hoàn phần chênh; 2 biên ngày hết hạn approval; 4 loại approval không hợp lệ; conflict sau crash khi quote đổi; thu hồi approval sau khi đã trả; 3 nhánh trace/console; 1 kiểm chứng ablation và phục hồi runtime.
 - Giữ quote đầy đủ: T08 đề xuất 35.000 nhưng trả 20.000 do approval; T14 đề xuất 150.000 nhưng trả 120.000 do đã trả 30.000 trước đó. Host tự cap; không trừ lịch sử ở shape.
@@ -65,7 +65,7 @@ Run id đối chứng khác: `R-swarm-C-001-s11`, `R-swarm-C-014-s11`. Trace bas
 
 Audit local trong JSON quét 70 trial mỗi nhánh: 0 secret leak, 0 lộ giá trị nhạy cảm public, 0 approval bypass, 0 ledger ngoài claim, 0 trace sai, 0 trial chưa audit. Phạm vi gồm RunResult, trace và file cùng prefix run id, stdout/stderr bắt trong process. Không thay thế hidden grade hay chứng minh an toàn cho mọi dữ liệu.
 
-Phần cần làm sau merge: chạy ma trận student đủ bốn shape (đặc biệt T11/T12); tạo `src/reports/benchmark.json` bằng benchmark chuẩn; so sánh và chốt ADR; cập nhật commit hash sau khi được phép commit; chạy `check_submission` đến 0 FAIL. Hidden chỉ kiểm khi có pack; không tự suy ra hidden pass rate từ public.
+Kết quả kiểm tra sau tích hợp do Codex thực hiện: toàn bộ pytest 419 passed, 6 xfailed; benchmark chuẩn bốn shape đã chạy lại, crash 20/20. Sáu xfail thuộc bonus B7, không phải test ledger của Linh. Báo cáo hidden_selfcheck trên main có 600 trial không nhãn của ba shape, không lỗi thực thi/trace/cảnh báo canary; không suy ra hidden pass rate. Nhóm chọn workflow trong ADR.
 
 ## 5. Công cụ AI đã dùng
 
@@ -75,6 +75,6 @@ Trước khi nộp, Linh cần tự đọc test/trace và giải thích: quote k
 
 ## 6. Tự đánh giá
 
-Trạng thái kỹ thuật: đã có test cá nhân chạy được, bằng chứng crash, benchmark Swarm và một ablation tái lập được. Chưa đủ cơ sở chọn kiến trúc cho cả nhóm vì A/B/C chưa merge; chưa có kết quả hidden và chưa có commit đóng góp.
+Trạng thái kỹ thuật: đã có commit test/harness trên nhánh nộp, bằng chứng crash, benchmark Swarm và ablation. A/B/C đã tích hợp, nhóm đã chọn workflow dựa trên public benchmark; chưa có điểm hidden chính thức. Các số test/checker cũ ở bảng quá trình được giữ để mô tả thời điểm làm việc độc lập.
 
 Phần tự đánh giá năng lực, mức độ hiểu và đóng góp thực tế: **Linh tự bổ sung sau khi đọc, chạy lại và kiểm tra nội dung**; không tự chấm điểm thay Linh.

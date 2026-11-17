@@ -9,30 +9,45 @@
 
 ## 2. Phần việc phụ trách
 
-Shape A — workflow trong [`src/lab8/shapes/workflow.py`](../../src/lab8/shapes/workflow.py), xử lý crash/retry, kiểm thử edge case và tự kiểm shape trên bộ `student_drop/` (CP5).
+Em phụ trách Shape A — `workflow`, gồm triển khai workflow xác định, crash/retry, test edge case và bonus B7 kiểm toán grader.
 
 ## 3. Đóng góp cụ thể
 
-- Hoàn thiện workflow theo luồng xác định: đọc claim, tra cứu đơn, tự tính quote từ dữ liệu hệ thống và gửi nguyên quote cho `issue_refund`.
-- Giữ quyết định về khoản tiền trong code, không tin số ngày ghi trong ticket; xử lý các nhánh thiếu thông tin, không thấy đơn, quote bằng 0, bị host từ chối và thành công.
-- Chuyển `crash_at` tới `issue_refund`, không nuốt lỗi crash; kiểm tra retry/crash qua T11/T12.
-- Thêm [`src/tests/test_workflow_extra.py`](../../src/tests/test_workflow_extra.py), kiểm tra approval bị thu hồi, approval thuộc claim khác và đơn đã hoàn đủ.
-- Tự kiểm shape workflow trên bộ `student_drop/` theo CP5.
-- Commit chính: `ed62c93` (workflow), `0c141e9` (extra tests), `9da916d` (TEAM.md), `0a02a06` (báo cáo cá nhân)
+- Hoàn thiện [`workflow.py`](../../src/lab8/shapes/workflow.py): đọc claim qua `get_claim_view`, tra cứu đơn bằng `lookup_order`, tự tính quote từ dữ liệu cấu trúc và gửi nguyên quote cho `issue_refund`. Ticket không quyết định số tiền; host kiểm approval, giới hạn theo đơn và ghi ledger.
+- Truyền `crash_at` vào `issue_refund`; các test T11/T12 xác nhận retry không trả tiền hai lần và crash được ném tiếp.
+- Thêm [`test_workflow_extra.py`](../../src/tests/test_workflow_extra.py) cho approval bị thu hồi, approval thuộc claim khác và đơn đã hoàn đủ.
+- Làm bonus B7: viết [`grader_audit.py`](../../src/bonus/grader_audit.py), test tích hợp giữ dưới tên [`test_bonus_grader_isolation.py`](../../src/tests/test_bonus_grader_isolation.py), sinh [`bonus_grader_isolation.json`](../../src/reports/bonus_grader_isolation.json) và bổ sung [`bonus_report.md`](bonus_report.md). Đổi tên test/output khi xử lý conflict để không ghi đè audit permutation của PR #14; vẫn cùng topic B7.
+- Kết quả B7: `grader_c` tính trial hạ tầng thành fail (pass rate 0.75 xuống 0.5625); cả ba grader làm `pass_5` từ 0.6667 xuống 0 khi nhân đôi fixture. `grader_a` còn làm lệch thống kê chi phí.
+- Hoàn thiện bằng chứng nhóm bằng benchmark public 4 shape × 14 claim × 5 seed, crash suite 20 điểm và ADR. Từ benchmark, workflow đạt pass rate/pass^5 1.000/1.000, variance 0, cost/success 34.29 VND mô phỏng.
+- CP5/hidden: PR #14 đã tích hợp hidden_selfcheck.json, 600 trial không nhãn của ba shape, không lỗi thực thi/trace/cảnh báo canary. Không có hidden grade để xác minh pass rate chính thức.
 
 ## 4. Bằng chứng
 
-- `python -m pytest -q -m student -o addopts= -k workflow` (chạy từ `src/`): 62 passed.
-- `python -m pytest -q tests/test_workflow_extra.py` (chạy từ `src/`): 3 passed.
-- `python -m lab8.check_submission` xác nhận workflow đạt 12/12 claim public ở seed 11. CP5: không có thư mục `student_drop/` hay kết quả tự kiểm trong workspace hiện tại để ghi số liệu.
-- Các thay đổi tương ứng nằm trong [`workflow.py`](../../src/lab8/shapes/workflow.py) và [`test_workflow_extra.py`](../../src/tests/test_workflow_extra.py).
+Các lệnh dưới đây chạy từ thư mục `src/`:
+
+- `python -m pytest -q -m student -o addopts= -k workflow`: 62 passed.
+- `python -m pytest -q tests/test_workflow_extra.py`: 3 passed.
+- `python -m pytest -q tests/test_bonus_grader_isolation.py`: 10 passed (tên sau tích hợp; trước đó là test_bonus_grader_audit.py trên nhánh cá nhân).
+- `python -m pytest -q`: 146 passed, 248 deselected.
+- `python -m pytest -q -m student -o addopts=`: 248 passed, 146 deselected.
+- `python -m lab8.check_submission`: 0 FAIL, 0 WARN.
+- Benchmark: [`benchmark.json`](../../src/reports/benchmark.json), 70 trial cho mỗi shape; run id dẫn chứng workflow: `R-workflow-C-001-s11`.
+- Crash suite: [`crash.json`](../../src/reports/crash.json), crash safety 20/20.
+
+Các commit liên quan:
+
+- `ed62c93` — workflow.
+- `0c141e9` — test workflow bổ sung.
+- `9da916d` — TEAM.md.
+- `0a02a06` — bản báo cáo cá nhân trước.
+- `4a275db` — cập nhật B7 và bằng chứng benchmark/crash.
 
 ## 5. Công cụ AI đã dùng
 
 - Công cụ: Copilot SDK trong VS Code.
-- Cách dùng: hỗ trợ triển khai workflow, bổ sung test và đối chiếu với hợp đồng của lab.
-- Tự kiểm tra: chạy ma trận workflow và test bổ sung; kiểm tra audit từ chối và không phát sinh refund cho ba trường hợp bị từ chối. Phần CP5 được ghi nhận theo thông tin thực hiện; kết quả hidden không có trong workspace để đối chiếu lại.
+- Cách dùng: hỗ trợ triển khai workflow, tạo test edge case, xây dựng kiểm toán B7 và tổng hợp báo cáo.
+- Tự kiểm tra: đối chiếu code với business rules và trace contract; chạy test workflow, test B7, toàn bộ suite và checker; kiểm tra kết quả audit được sinh trực tiếp từ fixtures.
 
 ## 6. Tự đánh giá
 
-Phần workflow, crash/retry, ba trường hợp kiểm tra bổ sung và tự kiểm CP5 đã hoàn thành theo phân công; các test workflow có sẵn trong workspace đều pass. Chưa có mã commit để ghi nhận. Bộ test mặc định của repository còn lỗi ở các shape `single` và `orchestrator`, ngoài phạm vi phần việc này.
+Phần workflow, crash/retry, test edge case và bonus B7 đã hoàn thành; toàn bộ checker và test trong workspace đều pass. Kết quả B7 chỉ áp dụng cho ba grader cùng các fixture hiện có, không chứng minh độ đúng trên mọi dữ liệu. Đã có hidden self-check không nhãn nhưng chưa có hidden grade xác nhận gate ≥ 0.80. Báo cáo được cập nhật khi tích hợp PR #16; các số test trong phần quá trình là snapshot cá nhân, bản nhóm đạt 419 passed, 6 xfailed và 9 test UI pass.

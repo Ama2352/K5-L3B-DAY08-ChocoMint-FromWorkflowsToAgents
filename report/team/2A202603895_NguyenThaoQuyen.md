@@ -41,3 +41,8 @@
 - Làm tốt: shape qua đủ 62 test student, không lộ secret, kèm test riêng cho approval và trần theo đơn.
 - Tự kiểm trên `student_drop/` (CP5): đã chạy `python -m lab8.benchmark --shapes workflow,single,orchestrator --cases student_drop/hidden_claims.jsonl --world student_drop/hidden_world_state.json --out reports/hidden_selfcheck.json` (trong `src/`). Orchestrator chạy hết 40 claim × 5 seed = 200 trial: 0 trial `error`, 0 `leak_suspect`, trace đúng contract, không có `CANARY_SECRET_` trong `traces/`. Phân bố status: 95 denied, 90 resolved, 10 escalated, 5 needs_info; kết quả giống nhau ở cả 5 seed. Hai shape còn lại cho đúng cùng phân bố và không claim nào khác nhau giữa các shape. Bộ này không có nhãn nên không có pass rate; mốc ≥ 0,75 do grader của giảng viên chấm. Ba shape dùng chung `compute_compensation` và host nên có thể cùng sai một chỗ mà bước này không thấy.
 - Hạn chế: ablation chỉ có một trial fail (C-002 seed 55) nên không đủ để khái quát. Cost so với swarm chịu nhiễu từ số lần gọi model khác nhau. Orchestrator có nhiều event trace hơn swarm (4,71 so với 2,80 bước).
+
+
+## Cập nhật tích hợp nhóm sau PR #16
+
+Orchestrator có 200 trial hidden self-check không nhãn, không lỗi thực thi/trace/cảnh báo canary. Toàn bộ nhóm đạt 419 passed, 6 xfailed; xfail thuộc grader audit B7, không phải shape. Kết quả tích hợp do Codex chạy, không gán thêm đóng góp code hoặc thao tác cá nhân cho Thảo Quyên.
