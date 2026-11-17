@@ -17,6 +17,7 @@
 | 2 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | Ama2352 | Nhóm trưởng; merge + build UI + nộp bài |
 | 3 | Nguyễn Thảo Quyên | 2A202603895 | thquyen100678@gmail.com | carwyn100678 | orchestrator + handoff |
 | 4 |  Vũ Ngọc Quỳnh Anh  | 2A202603875 | 26ai.anhvnq@vinuni.edu.vn  | qavu2407-lang | single |
+| 5 | Nguyễn Thị Khánh Linh | 2A202603845 | 26ai.linhntk@vinuni.edu.vn | xrkhanhlinh | Swarm (đối chứng, chỉ phân tích), Ledger, Crash, Benchmark và Report |
 
 Gợi ý chia vai:
 
@@ -33,6 +34,7 @@ Gợi ý chia vai:
 | Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Hồ Nguyễn Minh Sang | Nhóm trưởng; tích hợp/merge, xây UI benchmark và crash safety, chuẩn bị báo cáo và bài nộp | `5022b6f`, `9705de5`, `8dc0a54` | `src/ui/report.test.mjs`, `src/ui/integration.test.mjs`: kiểm cấu trúc báo cáo, phân biệt trial fail/chưa chấm, chọn shape theo chất lượng và chi phí trên cùng claim × seed, đối chiếu chỉ số với JSON thật; lệnh: `node --test src/ui/report.test.mjs src/ui/integration.test.mjs` |
+| Nguyễn Thị Khánh Linh | Swarm đối chứng (phân tích), Ledger, Crash, Benchmark và Report | `268d137` (test và kết quả trên nhánh `linh`); `be7007e` (báo cáo cá nhân, đã merge vào `main` qua PR #12) | `src/tests/test_linh_ledger_swarm.py` trên nhánh `linh`: 18 test case, đã pass |
 
 ## Cá nhân
 
@@ -101,10 +103,35 @@ Kế hoạch CP dưới đây được đối chiếu với bằng chứng thự
 | CP4 | Thêm 57 test: trace và handoff, crash ở 3 điểm rồi resume, approval hỏng hoặc mượn của claim khác, approval thấp hơn quote, trần theo đơn, ticket nói quá, không in ra stdout. | `test_orchestrator_extra.py`: 57 passed; không có `CANARY_SECRET_` trong trace. |
 | CP5 | Điền `research_card.md` (R2) và chạy ablation orchestrator so với swarm. Viết báo cáo cá nhân. | Orchestrator pass rate 1,000, pass^5 1,000 trên 70 trial; swarm 0,986 và 0,929. |
 
-- Chưa làm: tự kiểm trên `student_drop/` vì thư mục này do giảng viên phát cuối buổi.
+- CP5 tự kiểm trên `student_drop/`: orchestrator chạy 200 trial (40 claim × 5 seed), 0 `error`, 0 `leak_suspect`; không có pass rate vì bộ không có nhãn. Kết quả ở `src/reports/hidden_selfcheck.json`.
 
 ### Bằng chứng
 
 - Commit: `e95d016` (shape orchestrator), `a9450b5` (test riêng), `2c8190a` (research card và ablation), `b098933` và `af42422` (báo cáo cá nhân). PR #4 đã merge vào `main`.
 - Test: `src/tests/test_orchestrator_extra.py`; `python -m pytest -q -m student -o addopts=` cho orchestrator ra 62 passed.
 - Report sinh bằng công cụ: `src/reports/research_ablation_r2.json`.
+
+## 2A202603845_NguyenThiKhanhLinh
+
+### Phần việc phụ trách
+
+- Shape D — Swarm tham chiếu: chỉ phân tích và làm đối chứng; không sửa implementation của các shape.
+- Ledger, idempotency, approval, crash/retry, benchmark riêng Swarm và phần báo cáo tương ứng.
+- Báo cáo cá nhân: `report/team/2A202603845_NguyenThiKhanhLinh.md`.
+
+### Đóng góp cụ thể
+
+- Phân tích ranh giới code/model: tiền do `compute_compensation` tính; host kiểm approval, trần hoàn tiền theo đơn và chống ghi trùng. Giải thích lỗi đối chứng T02 ở seed 55 khi Swarm tin số ngày trong ticket.
+- Thêm 18 test case trong `src/tests/test_linh_ledger_swarm.py`: crash ở ba điểm với refund bị cap/hoàn phần chênh; reopen và retry; biên hết hạn và approval không hợp lệ; conflict khi quote đổi; thu hồi approval sau thanh toán; trace/console không lộ dữ liệu nhạy cảm; ablation và phục hồi runtime.
+- Thêm `src/scripts/evaluate_swarm_linh.py` để sinh baseline, audit public và ablation bỏ riêng lời gọi peer. Giữ nguyên code host, Swarm tham chiếu, fixture, giá và evaluator.
+- Chạy smoke, test cá nhân, ma trận Swarm, demo workflow cố ý lỗi và crash suite. Benchmark cùng 14 claim public và seed `11,22,33,44,55`, không tạo số liệu giả hoặc sửa tay JSON.
+- Viết báo cáo cá nhân và phần phân tích Swarm/Ledger/Crash/Benchmark. Báo cáo cá nhân đã được đưa vào `main` qua PR #12; phần tích hợp, kiểm thử cuối và chốt bài nộp do Sang phối hợp với nhóm xử lý.
+
+### Bằng chứng
+
+- Commit kết quả: [268d137](https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/commit/268d137), đã push lên nhánh `linh`.
+- [Test cá nhân](https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/blob/linh/src/tests/test_linh_ledger_swarm.py): 18 passed; test cá nhân cũng đã được chạy trên bản tích hợp `394d35b` trong checkout tạm và đạt 18 passed. Ma trận student riêng Swarm: 62 passed.
+- Crash suite: 20/20. Demo cố ý lỗi tạo 2 dòng hoàn tiền, minh họa checkpoint đơn độc không thay thế ledger.
+- [Benchmark Swarm và ablation](https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/blob/linh/src/reports/benchmark_swarm.json): hai nhánh đều 69/70 trial pass, pass^5 13/14; bỏ peer giảm cost/success từ 49,566957 xuống 48,691594 VND mô phỏng. Audit local public trên 70 trial mỗi nhánh ghi 0 secret leak, 0 lộ giá trị nhạy cảm public và 0 approval bypass; không phải hidden grade.
+- Báo cáo cá nhân: commit `be7007e`, [PR #12](https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/pull/12), merge commit `9b867dc` trên `main`.
+- Test, harness và benchmark riêng nêu trên hiện ở nhánh `linh`; PR #12 chỉ đưa báo cáo cá nhân vào `main`. Không khai các file này đã được tích hợp vào nhánh nộp.
