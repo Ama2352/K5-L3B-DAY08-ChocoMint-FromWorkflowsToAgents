@@ -27,8 +27,8 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
+| Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Võ Thị Phương Nhung | workflow, crash, hidden self-check | Chưa commit | `src/tests/test_workflow_extra.py`: approval bị thu hồi, approval thuộc claim khác, đơn đã hoàn đủ; ma trận workflow T01–T14/T11–T12 |
-| Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638` | `src/tests/test_single_react.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Sang | Nhóm trưởng; merge + build UI + nộp bài | Chưa cập nhật | Chưa cập nhật test mới cho phần việc UI |
 
