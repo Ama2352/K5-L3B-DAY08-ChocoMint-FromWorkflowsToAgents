@@ -1,0 +1,43 @@
+# Báo cáo cá nhân — 2A202603895_NguyenThaoQuyen
+
+## 1. Thông tin thành viên
+
+- Họ tên: Nguyễn Thảo Quyên
+- MSSV: 2A202603895
+- Email: thquyen100678@gmail.com
+- GitHub: carwyn100678
+
+## 2. Phần việc phụ trách
+
+- Shape C `orchestrator` (`src/lab8/shapes/orchestrator.py`): orchestrator, investigator chỉ có tool đọc, handoff allowlist.
+- Test riêng của shape: `src/tests/test_orchestrator_extra.py`.
+- `report/team/research_card.md` (câu R2, kèm ablation orchestrator so với swarm).
+- Rà approval, trần theo đơn và secret cho shape của mình (CP4).
+
+## 3. Đóng góp cụ thể
+
+- **CP2:** viết shape orchestrator. Orchestrator đọc claim, lập kế hoạch bằng một lần gọi MockLLM, dựng handoff bằng `make_handoff` với `facts={}` và ba tool đọc (`lookup_order`, `lookup_policy`, `compute_compensation`), rồi chạy `run_readonly_investigators`. Tiền do `compute_compensation` tính trên order row, ticket không bao giờ là đầu vào của quote. Chỉ orchestrator gọi `durability.issue_refund`, và truyền quote đầy đủ để host tự trừ phần đã hoàn của đơn.
+- **CP3:** `crash_at` được truyền vào `issue_refund`, `InjectedCrash` được ghi vào trace rồi ném lại, không bị nuốt. Handoff được ghi vào trace sau khi sanitize. Trace không chứa claim row, ticket hay order row thô.
+- **CP4:** thêm 57 test. Các nhóm chính: trace hợp lệ và không lộ secret hay PII trên 14 claim × 2 seed; handoff chỉ có field allowlist và tool đọc; crash ở 3 điểm rồi resume vẫn một refund và một audit; approval hỏng (thu hồi, hết hạn, số tiền ≤ 0, thuộc claim khác, thiếu, mượn của claim khác) đều không ghi refund và có audit `policy_denied` đúng lý do; approval thấp hơn quote thì trả số đã duyệt nhưng `proposal_amount` vẫn là quote đầy đủ; hai claim cùng đơn O-107 chỉ trả một lần (`order_already_refunded`); ticket nói quá hoặc "ignore policy" không làm tăng quote; không in gì ra stdout.
+- **CP5:** điền `research_card.md` (R2) và chạy ablation orchestrator so với swarm.
+- **Quyết định kỹ thuật:** tách một lần gọi model `plan` ở đầu để orchestrator đúng vai điều phối, nhưng không để model quyết số tiền. Không cho investigator tool `lookup_refund_history` vì host đã tự áp trần theo đơn, thêm tool chỉ tăng cost.
+
+## 4. Bằng chứng
+
+- Commit: `e95d016` (shape orchestrator), `a9450b5` (test riêng của shape), `2c8190a` (research card và ablation), `b098933` (báo cáo cá nhân), trên nhánh `thaoquyen`.
+- Test: `python -m pytest -q -m student -o addopts= -k orchestrator` ra 62 passed. `python -m pytest -q` ra 111 passed, 248 deselected. `tests/test_orchestrator_extra.py` ra 57 passed.
+- Benchmark so sánh: `src/reports/research_ablation_r2.json`. Orchestrator pass rate 1,000, pass^5 1,000, variance 0 trên 70 trial. Swarm pass rate 0,986, pass^5 0,929, fail duy nhất là `R-swarm-C-002-s55`.
+- Kiểm secret: không có `CANARY_SECRET_` trong `traces/`, và stdout của `lab8.run` cho 4 claim (C-001, C-005, C-007, C-013) không có secret.
+
+## 5. Công cụ AI đã dùng
+
+- Claude Code (model Claude Sonnet 5.5): đọc repo và tài liệu, viết `orchestrator.py`, viết test, soạn `research_card.md` và bản nháp báo cáo này.
+- Cách tự kiểm tra: chạy lại bộ test student, cổng host và benchmark thật thay vì tin lời giải thích. Một test do AI viết lần đầu tự bỏ qua kiểm tra vì tìm sai tên file trace (`R-orchestrator-C-001-s22.json`), phát hiện khi đọc lại và sửa thành assert cứng. Một lần khác, test đếm cả hai dòng refund lịch sử được seed sẵn (`C-HIST-*`) nên sai, đã sửa để chỉ đếm dòng do lần chạy ghi ra.
+- Citation MAST: kiểm tra tiêu đề và URL trên arXiv. Các con số 14 failure mode, 3 nhóm và kappa 0,88 lấy từ mô tả của lab, chưa đối chiếu với bản paper.
+- Không dùng AI để bịa số liệu. Mọi số trong báo cáo lấy từ file do `lab8.benchmark` sinh ra.
+
+## 6. Tự đánh giá
+
+- Làm tốt: shape qua đủ 62 test student, không lộ secret, kèm test riêng cho approval và trần theo đơn.
+- Chưa làm được: chưa tự kiểm trên `student_drop/` vì thư mục này do giảng viên phát cuối buổi. Khi có, chạy lệnh trong `src/README.md` (mục Tự kiểm trên bộ hidden).
+- Hạn chế: ablation chỉ có một trial fail (C-002 seed 55) nên không đủ để khái quát. Cost so với swarm chịu nhiễu từ số lần gọi model khác nhau. Orchestrator có nhiều event trace hơn swarm (4,71 so với 2,80 bước).
