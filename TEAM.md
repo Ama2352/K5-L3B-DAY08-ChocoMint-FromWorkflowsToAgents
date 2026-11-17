@@ -2,18 +2,19 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm: ChocoMint
 - Lớp: L3B
-- Repo nhóm: `K5-L3A-DAY08-ChocoMint-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
+- Repo nhóm: `K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
+- URL repo, nhánh nộp, commit chốt: https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/ 
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-| 1 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | Ama2352 | Nhóm trưởng; merge + build UI + nộp bài |
-| 2 | Nguyễn Thảo Quyên | 2A202603895 | thquyen100678@gmail.com | carwyn100678 | orchestrator + handoff |
-| 3 |  Vũ Ngọc Quỳnh Anh  | 2A202603875 | 26ai.anhvnq@vinuni.edu.vn  | qavu2407-lang | single |
+| 1 | Võ Thị Phương Nhung | 2A202603918 | nhungvo631@gmail.com | nhungvo631@gmail.com | workflow, crash, hidden self-check |
+| 2 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | Ama2352 | Nhóm trưởng; merge + build UI + nộp bài |
+| 3 | Nguyễn Thảo Quyên | 2A202603895 | thquyen100678@gmail.com | carwyn100678 | orchestrator + handoff |
+| 4 |  Vũ Ngọc Quỳnh Anh  | 2A202603875 | 26ai.anhvnq@vinuni.edu.vn  | qavu2407-lang | single |
 
 Gợi ý chia vai:
 
@@ -26,7 +27,8 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638` | `src/tests/test_single_react.py` |
+| Võ Thị Phương Nhung | workflow, crash, hidden self-check | `ed62c93`, `0c141e9`, `9da916d`, `0a02a06` | `src/tests/test_workflow_extra.py`: approval bị thu hồi, approval thuộc claim khác, đơn đã hoàn đủ; ma trận workflow T01–T14/T11–T12 |
+| Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Sang | Nhóm trưởng; merge + build UI + nộp bài | Chưa cập nhật | Chưa cập nhật test mới cho phần việc UI |
 
@@ -55,16 +57,28 @@ Mỗi thành viên tạo báo cáo riêng theo dạng `report/team/<MSSV>_<HoTen
 | CP4 (15:30) | Thêm màn hình crash safety vào UI; cùng nhóm xem kết quả crash test do Linh chạy. Quyết định và đăng ký bonus với giảng viên trước 15:30 nếu làm. | Hiển thị crash safety; mục tiêu crash test của nhóm: 20/20. |
 | CP5 (16:15) | Cùng nhóm xem `benchmark.json`, thống nhất shape chọn và lý do. Điền `decision_adr.md` (commit hash, run id), cập nhật bảng đóng góp `TEAM.md`, chạy `check_submission` rồi push. | `check_submission` đạt 0 FAIL. |
 
-- Viết báo cáo cá nhân, ghi công cụ AI đã dùng; nộp link repo trên LMS bằng tài khoản của mình.
-- Làm trên nhánh riêng, mở PR vào `main`; trước mỗi PR chạy `git pull --rebase origin main` rồi `python -m pytest -q`.
-- Không sửa tay `src/reports/*.json`. Có ít nhất một commit có nội dung và một test mới theo quy ước Git trong phân công.
+## 2A202603918_VoThiPhuongNhung
+
+### Phần việc phụ trách
+
+- Hoàn thiện shape workflow, xử lý crash/retry, bổ sung test edge case và tự kiểm shape trên `student_drop/` (CP5).
+
+### Đóng góp cụ thể
+
+- Triển khai luồng workflow xác định, tính quote từ dữ liệu hệ thống và chuyển quote đầy đủ cho host xử lý.
+- Chuyển `crash_at` tới `issue_refund`; ma trận workflow xác nhận T11/T12 xanh.
+- Bổ sung test cho approval bị thu hồi, approval thuộc claim khác và đơn đã hoàn đủ.
+- Tự kiểm shape workflow trên bộ `student_drop/` theo CP5.
 
 ### Bằng chứng
 
-- Nhánh làm việc: `sang`; nhánh tích hợp và nộp bài: `main`.
-- Commit/PR xây dựng UI, cập nhật tài liệu và tích hợp: chưa cập nhật.
-- Test mới, kết quả chạy UI với dữ liệu mẫu và màn hình crash safety: chưa cập nhật.
-- `decision_adr.md`, báo cáo cá nhân, kết quả `check_submission` và link nộp LMS: chưa cập nhật.
+- `src/lab8/shapes/workflow.py`
+- `src/tests/test_workflow_extra.py` — 3 test mới passed; ma trận workflow — 62 test passed, bao gồm T11/T12.
+- CP5: đã tự kiểm trên `student_drop/`; thư mục dữ liệu và kết quả không có trong workspace hiện tại nên không ghi số liệu.
+- Commit: `ed62c93` (workflow), `0c141e9` (extra tests), `9da916d` (TEAM.md), `0a02a06` (báo cáo cá nhân)
+- Viết báo cáo cá nhân, ghi công cụ AI đã dùng; nộp link repo trên LMS bằng tài khoản của mình.
+- Làm trên nhánh riêng, mở PR vào `main`; trước mỗi PR chạy `git pull --rebase origin main` rồi `python -m pytest -q`.
+- Không sửa tay `src/reports/*.json`. Có ít nhất một commit có nội dung và một test mới theo quy ước Git trong phân công.
 
 ## 2A202603895_NguyenThaoQuyen
 

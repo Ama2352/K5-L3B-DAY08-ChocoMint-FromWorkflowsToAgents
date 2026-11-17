@@ -22,6 +22,21 @@ Các mốc triển khai: CP1 cài môi trường và đọc contract; CP2 hoàn 
 | Swarm | Giữ nguyên bản tham chiếu. Dùng làm đối chứng, có điểm yếu được lab thiết kế sẵn tại C-002, seed 55. |
 
 Quote đầy đủ được truyền vào `issue_refund`; host trừ lịch sử hoàn tiền trong transaction để tránh trừ hai lần hoặc vượt entitlement. Retry cùng claim dùng idempotency key `refund:{claim_id}`. Ba shape truyền `crash_at`; có thể ghi trace khi bắt `InjectedCrash` rồi ném lại, không nuốt lỗi để giả thành công.
+### Shape B — single (ReAct, tối đa 8 bước)
+
+Shape `single` chạy một vòng ReAct bằng `lab8.runtime.run_react` với `max_steps=8`. Ở mỗi bước, agent chọn một tool đọc theo thứ tự: `get_claim_view` → `lookup_order` → `lookup_refund_history` → `compute_compensation`, rồi trả kết quả cuối. Thực tế một claim chỉ cần tối đa 5 bước, nên không bao giờ chạm trần 8.
+
+**Ranh giới code / model.** Agent chỉ được đọc, không có tool ghi. Số tiền do `compute_compensation` tính từ dòng order trong database, không lấy từ chữ trong ticket, nên ticket nói "trễ 5 ngày" mà order ghi 2 ngày thì vẫn từ chối (T02 ở seed 55, chỗ swarm sai). MockLLM được gọi mỗi bước chỉ để tính chi phí, không quyết định số tiền hay trạng thái. Approval, trần theo đơn và idempotency đều do host kiểm.
+
+**Gọi host.** Sau vòng lặp, code của shape mới quyết:
+- Thiếu `order_id` → `needs_info`. Không thấy đơn hoặc principal không sở hữu đơn → `escalated`. Claim không tồn tại → `failed`.
+- Quote bằng 0 → `denied`, không gọi host, nên không có audit `policy_denied`.
+- Quote > 0 → gọi `durability.issue_refund` với **quote đầy đủ**, không tự trừ phần đã hoàn; host tự trừ (T13, T14). `crash_at` được truyền thẳng vào, `InjectedCrash` không bị bắt mà chỉ ghi trace rồi ném tiếp.
+- Mọi nhánh đều trả kết quả qua `common.finish()`, nên luôn có trace đúng contract.
+
+**Trace.** Ghi các event `react_step` (số bước và tên tool), `order` (order đã lọc field qua `lookup_order`), `refund_history` (chỉ số tiền đã hoàn), `quote` và `decision`. Cố ý **không** ghi ticket, `principal_id`, dòng claim hay order gốc, vì claim row có `parent_secret` còn order row có SĐT, địa chỉ, ghi chú nội bộ và tên hàng.
+
+**Kết quả trên bộ public** (`src/reports/benchmark.json`, 14 claim × 5 seed): pass rate 1.000, pass^5 1.000, variance 0, cost/success 39.41 VND (mô phỏng), mean steps 8.21, p95 steps 9. "Steps" ở đây là số event trong trace, không phải số bước ReAct. So với workflow (34.29 VND), single đắt hơn khoảng 15% vì gọi MockLLM ở mỗi bước, nhưng không đúng hơn.
 
 Handoff dùng allowlist và giới hạn tool đọc; không chuyển parent secret, header hay lịch sử thô. Trace ghi các event cần giải thích như claim view đã lọc, quote, quyết định, ReAct step hoặc handoff đã sanitize; không ghi raw claim/order, ticket hay PII. Kết quả đi qua `finish()` để tạo trace đúng contract.
 
