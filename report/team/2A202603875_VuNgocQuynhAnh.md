@@ -13,8 +13,10 @@ Tôi làm shape B `single`: một agent ReAct, tối đa 8 bước, trong file `
 
 ## 3. Đóng góp cụ thể
 
-- Commit chính: `627a70f` (code shape single), `3a0a638` (test)
-- Test thêm mới: `src/tests/test_single_react.py`. Test kiểm agent không quá 8 bước, chỉ gọi tool đọc, không ghi ticket vào trace, và vẫn từ chối C-002 ở seed 55 dù ticket nói trễ 5 ngày.
+- Commit chính: `627a70f` (code shape single), `3a0a638` (test cơ bản), `176a26b` (test approval và đơn đã hoàn)
+- Test thêm mới:
+  - `src/tests/test_single_react.py`: kiểm agent không quá 8 bước, chỉ gọi tool đọc, không ghi ticket vào trace, và vẫn từ chối C-002 ở seed 55 dù ticket nói trễ 5 ngày.
+  - `src/tests/test_single_extra.py`: kiểm host chặn đúng khi approval hỏng (thiếu, không tồn tại, của claim khác, bị thu hồi, hết hạn, số tiền 0) và khi đơn đã được hoàn đủ (T13, hoặc claim khác vừa hoàn cùng đơn). Mọi trường hợp đều ra `denied`, giữ quote đầy đủ, không có dòng ledger và có đúng một audit `policy_denied` với lý do đúng.
 - Quyết định kỹ thuật:
   - Agent chỉ được gọi tool đọc theo thứ tự: xem claim → tra đơn → tra lịch sử hoàn tiền → tính tiền. Việc ghi refund do code của shape làm sau vòng lặp, không để agent làm.
   - Agent không đọc chữ trong ticket. Số ngày trễ và số tiền lấy từ dữ liệu đơn hàng, tính bằng `compute_compensation`. MockLLM chỉ để đếm chi phí, không quyết tiền.
@@ -26,7 +28,7 @@ Tôi làm shape B `single`: một agent ReAct, tối đa 8 bước, trong file `
 ## 4. Bằng chứng
 
 - `python -m pytest -q -m student -o addopts= -k "single and not workflow and not orchestrator and not swarm"`: 62 passed.
-- `python -m pytest -q`: xanh (58 passed), gồm 4 test trong `test_single_react.py`.
+- `python -m pytest -q`: xanh (133 passed sau khi merge `main`), gồm 4 test trong `test_single_react.py` và 18 test trong `test_single_extra.py`.
 - Chạy cả 14 claim public ở seed 55: kết quả đúng với luật nghiệp vụ. Ví dụ `R-single-C-014-s55`: `resolved`, quote 150.000, ledger 120.000. `R-single-C-013-s55`: `denied`, có `policy_denied` lý do `order_already_refunded`.
 - Tìm `CANARY_SECRET` và `parent_secret` trong 65 file trace `R-single-*`: không có.
 

@@ -26,7 +26,7 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638` | `src/tests/test_single_react.py` |
+| Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Sang | Nhóm trưởng; merge + build UI + nộp bài | Chưa cập nhật | Chưa cập nhật test mới cho phần việc UI |
 
