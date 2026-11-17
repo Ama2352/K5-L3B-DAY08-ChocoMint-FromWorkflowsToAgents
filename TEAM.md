@@ -101,7 +101,7 @@ Mỗi thành viên tạo báo cáo riêng theo dạng `report/team/<MSSV>_<HoTen
 | CP4 | Thêm 57 test: trace và handoff, crash ở 3 điểm rồi resume, approval hỏng hoặc mượn của claim khác, approval thấp hơn quote, trần theo đơn, ticket nói quá, không in ra stdout. | `test_orchestrator_extra.py`: 57 passed; không có `CANARY_SECRET_` trong trace. |
 | CP5 | Điền `research_card.md` (R2) và chạy ablation orchestrator so với swarm. Viết báo cáo cá nhân. | Orchestrator pass rate 1,000, pass^5 1,000 trên 70 trial; swarm 0,986 và 0,929. |
 
-- Chưa làm: tự kiểm trên `student_drop/` vì thư mục này do giảng viên phát cuối buổi.
+- CP5 tự kiểm trên `student_drop/`: orchestrator chạy 200 trial (40 claim × 5 seed), 0 `error`, 0 `leak_suspect`; không có pass rate vì bộ không có nhãn. Kết quả ở `src/reports/hidden_selfcheck.json`.
 
 ### Bằng chứng
 
