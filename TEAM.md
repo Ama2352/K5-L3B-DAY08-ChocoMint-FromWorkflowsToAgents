@@ -5,7 +5,9 @@
 - Tên nhóm: ChocoMint
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt: https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/ 
+- URL repo: https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/
+- Nhánh nộp: `main`.
+- Commit mã nguồn đối chiếu: `8dc0a541d6d8e74787394fbc99afb01421d340c8`, trùng ADR; báo cáo bổ sung được commit sau snapshot này.
 
 ## Thành viên
 
@@ -30,7 +32,7 @@ Gợi ý chia vai:
 | Võ Thị Phương Nhung | workflow, crash, hidden self-check | `ed62c93`, `0c141e9`, `9da916d`, `0a02a06` | `src/tests/test_workflow_extra.py`: approval bị thu hồi, approval thuộc claim khác, đơn đã hoàn đủ; ma trận workflow T01–T14/T11–T12 |
 | Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
-| Sang | Nhóm trưởng; merge + build UI + nộp bài | Chưa cập nhật | Chưa cập nhật test mới cho phần việc UI |
+| Hồ Nguyễn Minh Sang | Nhóm trưởng; tích hợp/merge, xây UI benchmark và crash safety, chuẩn bị báo cáo và bài nộp | `5022b6f`, `9705de5`, `8dc0a54` | `src/ui/report.test.mjs`, `src/ui/integration.test.mjs`: kiểm cấu trúc báo cáo, phân biệt trial fail/chưa chấm, chọn shape theo chất lượng và chi phí trên cùng claim × seed, đối chiếu chỉ số với JSON thật; lệnh: `node --test src/ui/report.test.mjs src/ui/integration.test.mjs` |
 
 ## Cá nhân
 
@@ -42,19 +44,19 @@ Mỗi thành viên tạo báo cáo riêng theo dạng `report/team/<MSSV>_<HoTen
 
 - Nhóm trưởng, làm việc trên nhánh `sang`; review và merge PR vào `main`, xây dựng UI và phụ trách hoàn thiện bài nộp.
 - Theo phân công, Sang không viết shape. Workflow do Nhung phụ trách.
-- File được sửa: `src/ui/` (mới), `TEAM.md`, `decision_adr.md`.
+- File đóng góp: `src/ui/`, `TEAM.md`, `report/team/decision_adr.md`, `report/team/group_report.md`, `docs/demo_script.md` và báo cáo cá nhân.
 - Báo cáo cá nhân: `report/team/2A202603905_HoNguyenMinhSang.md`.
 
 ### Đóng góp cụ thể
 
-Đây là kế hoạch được phân công trong [tasks/tasks.md](tasks/tasks.md), chưa phải xác nhận công việc đã hoàn thành.
+Kế hoạch CP dưới đây được đối chiếu với bằng chứng thực tế trong [báo cáo cá nhân Sang](report/team/2A202603905_HoNguyenMinhSang.md): `5022b6f` (UI/test/báo cáo), `9705de5` (demo) và các merge commit. Chưa suy ra việc đã nộp LMS từ kế hoạch.
 
 | Checkpoint | Công việc của Sang | Mục tiêu |
 | --- | --- | --- |
 | CP1 (13:30) | Cùng nhóm cài môi trường, chạy `smoke` và `pytest -q`; đọc `business_rules.md`, `contracts.md`, `swarm_reference.py`. Fork repo, đổi tên theo phân công, mời 4 thành viên và giảng viên; điền `TEAM.md`. | Mốc kiểm tra ban đầu: 186 failed, 62 passed; hoàn thiện thông tin nhóm. |
 | CP2 (13:45) | Dựng khung UI trong `src/ui/`, đọc `reports/*.json` dựa trên benchmark swarm có sẵn. | UI chạy được với dữ liệu mẫu. |
 | CP3 (14:30) | Review và merge PR vào `main`; chủ trì cả nhóm chạy lại `pytest -q` trên `main`. | Tích hợp thay đổi và kiểm tra kết quả trên `main`. |
-| CP4 (15:30) | Thêm màn hình crash safety vào UI; cùng nhóm xem kết quả crash test do Linh chạy. Quyết định và đăng ký bonus với giảng viên trước 15:30 nếu làm. | Hiển thị crash safety; mục tiêu crash test của nhóm: 20/20. |
+| CP4 (15:30) | Thêm màn hình crash safety vào UI; đối chiếu báo cáo crash suite của nhóm. Quyết định và đăng ký bonus với giảng viên trước 15:30 nếu làm. | Hiển thị crash safety; mục tiêu crash test của nhóm: 20/20. |
 | CP5 (16:15) | Cùng nhóm xem `benchmark.json`, thống nhất shape chọn và lý do. Điền `decision_adr.md` (commit hash, run id), cập nhật bảng đóng góp `TEAM.md`, chạy `check_submission` rồi push. | `check_submission` đạt 0 FAIL. |
 
 ## 2A202603918_VoThiPhuongNhung

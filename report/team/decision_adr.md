@@ -4,12 +4,12 @@
 `Shape chọn` phải là đúng một trong: `workflow`, `single`, `orchestrator`, `swarm`. Đây là shape được chấm cổng hidden.
 
 - Shape chọn: workflow
-- Commit hash: 4ce28162c51e5092a4409f2a1e7db73884af0437
+- Commit hash: 8dc0a541d6d8e74787394fbc99afb01421d340c8
 - Run id dẫn chứng: R-workflow-C-001-s11; R-workflow-C-002-s55; đối chứng R-swarm-C-002-s55 (src/reports/benchmark.json)
 - Pass rate / pass^5 / seed min-max / variance: 1,000 / 1,000 / 1,000–1,000 / 0; public 14 claim × 5 seed = 70 trial workflow
 - Cost per success (mô phỏng, VND): 34,2857142857 (hiển thị 34,29); tổng 2.400 VND / 70 trial đạt
 - Crash safety: 20/20 trong src/reports/crash.json (suite chung host và một ca swarm, không phải 20 ca riêng cho workflow); retry/crash từng shape được kiểm thêm qua T11/T12 và test public
-- Secret leak / approval bypass: các test public tương ứng đạt trong bộ 363 test; chưa có số đếm hidden, chưa có hidden_grade.json; không khẳng định kết quả production hoặc hidden bằng 0
+- Secret leak / approval bypass: các test public tương ứng đạt; lần kiểm tra toàn bộ pytest khi rà hồ sơ ngày 17/11/2026 đạt 384 test; chưa có số đếm hidden chính thức, chưa có hidden_grade.json; không khẳng định kết quả production hoặc hidden bằng 0
 
 Ví dụ một dòng đã điền: `- Shape chọn: workflow`, `- Crash safety: 20/20 (src/reports/crash.json)`.
 
@@ -31,6 +31,6 @@ Workflow ghi claim_view đã lọc (found/claim_id/order_id), lookup_order đã 
 
 ## Giới hạn
 
-MockLLM không phải model sản xuất. Latency `unavailable`; giá từ src/config/pricing.yaml, không phải hóa đơn API hoặc tổng chi phí doanh nghiệp. Public pass 100% không thay hidden ≥ 0,75; chưa có student_drop/ và hidden_grade.json. So sánh orchestrator/swarm còn nhiễu số model call, không quy toàn bộ chênh lệch cho topology. Không sửa JSON để đủ ngưỡng.
+MockLLM không phải model sản xuất. Latency `unavailable`; giá từ src/config/pricing.yaml, không phải hóa đơn API hoặc tổng chi phí doanh nghiệp. Public pass 100% không thay hidden ≥ 0,75. Nhóm đã nhận student_drop không nhãn; tự kiểm chỉ đánh giá thực thi/trace và nghi vấn canary, chưa có hidden_grade.json để kết luận điểm chính thức. So sánh orchestrator/swarm còn nhiễu số model call, không quy toàn bộ chênh lệch cho topology. Không sửa JSON để đủ ngưỡng.
 
 Hash trên là snapshot mã nguồn shape dùng cho benchmark, không phải tuyên bố UI/tài liệu/JSON mới đã được commit hoặc push. Trước nộp cần chốt bản nguồn có thể chạy lại, kiểm tra hash/run ID và cập nhật nếu mã nguồn ảnh hưởng phép đo thay đổi.

@@ -3,8 +3,8 @@
 ## 1. Thông tin nhóm
 
 - Nhóm: ChocoMint; lớp L3B theo `TEAM.md` hiện tại.
-- Phân công: Sang — UI, tích hợp, bài nộp; Nhung — workflow; Quỳnh Anh — single; Thảo Quyên — orchestrator, handoff, nghiên cứu; Linh — ledger, crash, benchmark và báo cáo theo kế hoạch. Kế hoạch không thay thế bằng chứng đóng góp cá nhân.
-- Commit mã nguồn dùng đối chiếu kết quả: `4ce28162c51e5092a4409f2a1e7db73884af0437`, trùng ADR. Đây là snapshot code shape đã tích hợp, chưa phải xác nhận mọi tài liệu, UI và báo cáo đã được commit/push trong bản nộp cuối.
+- Thành viên và phân công hiện tại: Sang — UI, tích hợp, báo cáo và bài nộp; Nhung — workflow, crash và hidden self-check; Quỳnh Anh — single; Thảo Quyên — orchestrator, handoff và nghiên cứu. Đối chiếu đóng góp thực tế theo `TEAM.md` và lịch sử commit.
+- Commit mã nguồn dùng đối chiếu kết quả: `8dc0a541d6d8e74787394fbc99afb01421d340c8`, trùng ADR. Ba file shape không khác snapshot benchmark trước (`4ce2816`); commit này gồm UI, báo cáo và các test đã tích hợp. Phần cập nhật hồ sơ được commit sau snapshot này; không đồng nghĩa đã push/nộp LMS.
 
 ## 2. Mục tiêu và cách tiếp cận
 
@@ -59,9 +59,9 @@ P95 steps lần lượt là 5; 9; 5; 3. Bước là số event trace, không ph�
 
 Tình huống giải thích: `C-002`, seed `55`. Ticket ghi trễ 5 ngày nhưng order là 2 ngày, nên đúng phải `denied`. Ba shape nhóm làm đúng; swarm trả `resolved`, lý do fail `status resolved != denied`, run `R-swarm-C-002-s55`. Nghiên cứu R2 xác nhận lỗi kiểm chứng dữ liệu trong phép thử này; so sánh orchestrator/swarm còn nhiễu số model call nên không quy toàn bộ chênh cost cho topology.
 
-Kiểm tra tích hợp: smoke pass; toàn bộ pytest (bỏ bộ lọc mặc định) **363 passed**; test UI **9 passed**. Crash report **20/20**: 17 ca ở ba giai đoạn crash, hai ca conflict/approval khi retry và một ca swarm crash/resume. Đây là suite chung của host kèm ca swarm, không phải 20 ca riêng cho mỗi shape. T11/T12 và test shape bổ sung kiểm retry/crash ở các shape.
+Kiểm tra tích hợp khi rà hồ sơ ngày 17/11/2026: toàn bộ pytest (bỏ bộ lọc mặc định, tắt cache provider) **384 passed**; test UI ở workspace **9 passed**. Checker đạt **0 FAIL, 1 WARN**; cảnh báo do không đọc được Git trong sandbox. Crash report **20/20**: 17 ca ở ba giai đoạn crash, hai ca conflict/approval khi retry và một ca swarm crash/resume. Đây là suite chung của host kèm ca swarm, không phải 20 ca riêng cho mỗi shape. T11/T12 và test shape bổ sung kiểm retry/crash ở các shape.
 
-Chưa có `student_drop/` hay `hidden_grade.json`; chưa báo kết quả hidden, `secret_leak_count` hoặc `approval_bypass_count` hidden. Test public đã kiểm các ràng buộc trace, approval và ledger; public pass không chứng nhận hidden pass.
+Nhóm đã nhận bộ `student_drop/` không nhãn và đã chạy self-check trong phiên hỗ trợ: 3 shape × 40 claim × 5 seed = 600 trial, không ghi nhận lỗi thực thi, lỗi trace hoặc cảnh báo canary. Tại lần rà hồ sơ này, file `src/reports/hidden_selfcheck.json` không còn trong workspace, nên chưa coi số liệu đó là bằng chứng nộp có thể đối chiếu; cần chạy lại nếu muốn nộp kèm report tùy chọn. Chưa có `hidden_grade.json`, không báo hidden pass rate, `secret_leak_count` hoặc `approval_bypass_count` chính thức. Public pass và self-check không nhãn không chứng nhận hidden pass.
 
 ## 5. Khó khăn và cách xử lý
 
@@ -74,9 +74,9 @@ Chưa có `student_drop/` hay `hidden_grade.json`; chưa báo kết quả hidden
 
 ## 6. Tổng hợp đóng góp
 
-Sang tích hợp main vào nhánh Sang, xây UI đọc báo cáo, bộ so sánh/đề xuất và test UI; hoàn thiện bản thảo báo cáo nhóm, ADR và kịch bản demo. Nhung triển khai workflow theo phân công. Quỳnh Anh triển khai single và test riêng. Thảo Quyên triển khai orchestrator, 57 test bổ sung và research card R2. Phần việc ledger/crash/benchmark được phân cho Linh; các file kết quả hiện có được sinh khi kiểm tra tích hợp, không đủ cơ sở gán tác giả cá nhân chỉ từ JSON.
+Sang tích hợp main vào nhánh Sang, xây UI đọc báo cáo, bộ so sánh/đề xuất và test UI; tổng hợp báo cáo nhóm, ADR và kịch bản demo (`5022b6f`, `9705de5`, merge `8dc0a54`). Nhung triển khai workflow, test edge case, crash và hidden self-check theo hồ sơ cá nhân. Quỳnh Anh triển khai single và test riêng. Thảo Quyên triển khai orchestrator, 57 test bổ sung và research card R2. Không gán tác giả cá nhân chỉ dựa vào file JSON kết quả.
 
-Bằng chứng commit và test cá nhân xem `TEAM.md` và các báo cáo cá nhân hiện có. Trước nộp cần bổ sung thông tin/đóng góp còn thiếu của Nhung, Linh, cập nhật commit của Sang và báo cáo cá nhân tương ứng; không coi bảng phân công là xác nhận tất cả thành viên đã hoàn tất hồ sơ.
+Bằng chứng commit và test xem `TEAM.md` và bốn báo cáo cá nhân theo MSSV. Báo cáo của Sang được bổ sung trong lần rà này; mỗi người cần xác nhận nội dung cá nhân, công cụ AI, cách tự kiểm và tự nộp cùng link repo nhóm trên LMS. Có đủ file không đồng nghĩa đã push hoặc đã nộp LMS.
 
 ## 7. Hạn chế và hướng cải thiện
 
