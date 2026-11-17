@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-| 1 | Võ Thị Phương Nhung | 2A202603918 | nhungvo631@gmail.com | nhungvo631@gmail.com | workflow, crash, hidden self-check |
+| 1 | Võ Thị Phương Nhung | 2A202603918 | nhungvo631@gmail.com | nhungvo631@gmail.com | workflow, crash, hidden self-check, bonus B7 |
 | 2 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | Ama2352 | Nhóm trưởng; merge + build UI + nộp bài |
 | 3 | Nguyễn Thảo Quyên | 2A202603895 | thquyen100678@gmail.com | carwyn100678 | orchestrator + handoff |
 | 4 |  Vũ Ngọc Quỳnh Anh  | 2A202603875 | 26ai.anhvnq@vinuni.edu.vn  | qavu2407-lang | single |
@@ -27,7 +27,7 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Võ Thị Phương Nhung | workflow, crash, hidden self-check | `ed62c93`, `0c141e9`, `9da916d`, `0a02a06` | `src/tests/test_workflow_extra.py`: approval bị thu hồi, approval thuộc claim khác, đơn đã hoàn đủ; ma trận workflow T01–T14/T11–T12 |
+| Võ Thị Phương Nhung | workflow, crash, hidden self-check, bonus B7 | `ed62c93`, `0c141e9`, `9da916d`, `0a02a06`; B7 bonus | `src/tests/test_workflow_extra.py`, `src/tests/test_bonus_grader_audit.py` (10 passed); ma trận workflow T01–T14/T11–T12 |
 | Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Sang | Nhóm trưởng; merge + build UI + nộp bài | Chưa cập nhật | Chưa cập nhật test mới cho phần việc UI |
@@ -64,18 +64,20 @@ Mỗi thành viên tạo báo cáo riêng theo dạng `report/team/<MSSV>_<HoTen
 - Hoàn thiện shape workflow, xử lý crash/retry, bổ sung test edge case và tự kiểm shape trên `student_drop/` (CP5).
 
 ### Đóng góp cụ thể
-
 - Triển khai luồng workflow xác định, tính quote từ dữ liệu hệ thống và chuyển quote đầy đủ cho host xử lý.
 - Chuyển `crash_at` tới `issue_refund`; ma trận workflow xác nhận T11/T12 xanh.
 - Bổ sung test cho approval bị thu hồi, approval thuộc claim khác và đơn đã hoàn đủ.
 - Tự kiểm shape workflow trên bộ `student_drop/` theo CP5.
+- Thêm công cụ kiểm toán B7 trong `src/bonus/grader_audit.py`, kiểm tra ba grader với các quan hệ metamorphic và ghi kết quả vào `src/reports/bonus_grader_audit.json`.
+- Bổ sung test B7 và báo cáo phân tích tại `report/team/bonus_report.md`; phát hiện `grader_c` tính trial hạ tầng là fail và cả ba grader làm lệch `pass_5` khi lặp fixture.
 
 ### Bằng chứng
 
 - `src/lab8/shapes/workflow.py`
 - `src/tests/test_workflow_extra.py` — 3 test mới passed; ma trận workflow — 62 test passed, bao gồm T11/T12.
+- `src/tests/test_bonus_grader_audit.py` — 10 test passed; `src/reports/bonus_grader_audit.json`; `report/team/bonus_report.md`.
 - CP5: đã tự kiểm trên `student_drop/`; thư mục dữ liệu và kết quả không có trong workspace hiện tại nên không ghi số liệu.
-- Commit: `ed62c93` (workflow), `0c141e9` (extra tests), `9da916d` (TEAM.md), `0a02a06` (báo cáo cá nhân)
+- Commit: `ed62c93` (workflow), `0c141e9` (extra tests), `9da916d` (TEAM.md), `0a02a06` (báo cáo cá nhân); bonus B7 
 - Viết báo cáo cá nhân, ghi công cụ AI đã dùng; nộp link repo trên LMS bằng tài khoản của mình.
 - Làm trên nhánh riêng, mở PR vào `main`; trước mỗi PR chạy `git pull --rebase origin main` rồi `python -m pytest -q`.
 - Không sửa tay `src/reports/*.json`. Có ít nhất một commit có nội dung và một test mới theo quy ước Git trong phân công.
