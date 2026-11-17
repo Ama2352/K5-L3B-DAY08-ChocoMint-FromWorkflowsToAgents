@@ -7,10 +7,12 @@
 | Tên repo và quyền truy cập | Repo public K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents; Sang xác nhận lớp chính thức L3B. Mẫu SUBMISSION ghi L3A, giữ lớp thật theo xác nhận. |
 | TEAM và đóng góp | Năm thành viên, đủ vai/commit/test. Test Linh đã tích hợp vào main tại f526841, nguồn 268d137, giữ tác giả. |
 | Báo cáo cá nhân | Đủ năm file theo MSSV; cập nhật Sang, Linh và Quỳnh Anh theo bằng chứng tích hợp. Phần tự đánh giá/AI từng người cần tự xác nhận. |
-| Báo cáo nhóm / ADR / research card | Đã điền; ADR chọn workflow, tham chiếu snapshot f526841 và run ID thật; R2 có report ablation. |
+| Báo cáo nhóm / ADR / research card | Đã điền; ADR chọn workflow, tham chiếu snapshot 6d9b8c2 và run ID thật; R2 có report ablation. |
 | Ba shape và test thêm | Có trong nhánh nộp. Toàn bộ pytest 419 passed, 6 xfailed; 9 test UI pass. Xfail strict là lỗi grader cố ý B7. |
 | Benchmark | Chạy lại bằng lab8.benchmark, 4 shape × 14 claim × 5 seed; không sửa tay JSON. |
 | Crash suite | Chạy lại bằng lab8.crash_test, 20/20. |
+| Giới hạn trang | Xuất thử bản cuối bằng Chrome headless A4, Segoe UI 10pt, lề 14mm: báo cáo nhóm 3/5 trang, bonus 2/2 trang. Thay kiểu in có thể đổi số trang. |
+| File cấm / credential | Không có trace, SQLite, student_drop, .venv, .env hoặc instructor pack trong danh sách Git theo dõi. Không thấy mẫu AWS access key, OpenAI project key hoặc private key trong lần quét file hiện tại; không phải bảo đảm toàn bộ lịch sử không có secret. |
 | Hidden self-check tùy chọn | PR #14 đưa reports/hidden_selfcheck.json vào main: 600 trial không nhãn, toàn bộ reason unlabeled; không lỗi thực thi/trace/cảnh báo canary. Không có điểm hidden chính thức. |
 | Bonus | Có code, hai bộ test/JSON và bonus_report.md; phần permutation ở bonus_report_pending.md. Gate hidden ≥ 0,80 và điểm bonus vẫn chờ giảng viên. |
 | Checker bonus | PR #16 mở rộng tên B1–B7, không đổi metric/grader/host. Checker local nhận B7; checker gốc phía giảng viên có thể vẫn cần cập nhật tương thích. |
@@ -29,7 +31,7 @@ python -m lab8.check_submission
 
 Từ root: `node --test src/ui/report.test.mjs src/ui/integration.test.mjs`.
 
-Snapshot mã nguồn đã commit trước lần cập nhật hồ sơ: f526841f182ecec31305ddf6db0750026f6d440a. Cập nhật hồ sơ nằm ở commit sau, tránh yêu cầu một file tự chứa hash của chính commit đang tạo.
+Snapshot mã nguồn đã commit trước lần cập nhật hồ sơ: 6d9b8c248509ed1815269e3ff7e9a5c720f6426f. PR #16 được giải conflict tại 117f920, đã merge và push lên main. Hồ sơ nằm ở commit sau, tránh yêu cầu file tự chứa hash của chính commit đang tạo.
 
 ## Ngoài phạm vi xác nhận tự động
 

@@ -7,7 +7,7 @@
 - Repo nhóm: `K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo: https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/
 - Nhánh nộp: `main`.
-- Commit mã nguồn đối chiếu: `f526841f182ecec31305ddf6db0750026f6d440a`, trùng ADR; báo cáo bổ sung được commit sau snapshot này. Lớp L3B đã được nhóm trưởng xác nhận; mẫu SUBMISSION ghi L3A.
+- Commit mã nguồn đối chiếu: `6d9b8c248509ed1815269e3ff7e9a5c720f6426f`, trùng ADR; báo cáo bổ sung được commit sau snapshot này. Lớp L3B đã được nhóm trưởng xác nhận; mẫu SUBMISSION ghi L3A.
 
 ## Thành viên
 
@@ -33,7 +33,7 @@ Gợi ý chia vai:
 | Võ Thị Phương Nhung | workflow, crash, hidden self-check, bonus B7 | `ed62c93`, `0c141e9`, `9da916d`, `0a02a06`, `4a275db`, `370a630` (PR #16) | `src/tests/test_workflow_extra.py`: 3 test edge case; `src/tests/test_bonus_grader_isolation.py`: 10 test B7, giữ riêng với bộ permutation của PR #14 |
 | Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
-| Hồ Nguyễn Minh Sang | Nhóm trưởng; tích hợp/merge, xây UI benchmark và crash safety, chuẩn bị báo cáo và bài nộp | `5022b6f`, `9705de5`, `8dc0a54` | `src/ui/report.test.mjs`, `src/ui/integration.test.mjs`: kiểm cấu trúc báo cáo, phân biệt trial fail/chưa chấm, chọn shape theo chất lượng và chi phí trên cùng claim × seed, đối chiếu chỉ số với JSON thật; lệnh: `node --test src/ui/report.test.mjs src/ui/integration.test.mjs` |
+| Hồ Nguyễn Minh Sang | Nhóm trưởng; tích hợp/merge, UI, báo cáo và giải conflict PR #16 | `5022b6f`, `9705de5`, `b0628f3`, `2b4859a`, `a9e56a6`, `117f920` | `src/ui/report.test.mjs`, `src/ui/integration.test.mjs`: kiểm cấu trúc báo cáo, trial fail/chưa chấm, chọn shape theo chất lượng/chi phí trên cùng claim × seed, đối chiếu JSON thật; 9 test UI pass |
 | Nguyễn Thị Khánh Linh | Swarm đối chứng, ledger, crash, benchmark và báo cáo | `268d137` (nguồn gốc); `f526841` (tích hợp nguyên test/harness/report vào main, giữ tác giả); `be7007e` (báo cáo, PR #12) | `src/tests/test_linh_ledger_swarm.py`: 18 test case; có trên nhánh nộp main |
 
 ## Cá nhân

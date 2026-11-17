@@ -21,6 +21,9 @@ Tích hợp các shape của thành viên, xây UI đọc báo cáo benchmark/cr
 | Logic lựa chọn | Chỉ đề xuất shape đạt ngưỡng chất lượng trên cùng claim × seed; tính mức tiết kiệm theo baseline. Chi phí thấp không chứng minh đã qua safety/hidden. |
 | Test | `src/ui/report.test.mjs`, `src/ui/integration.test.mjs` trong `5022b6f`: kiểm format, trial chưa chấm, bộ lọc, điều kiện so sánh và chỉ số từ JSON thật. |
 | Báo cáo và demo | `5022b6f` bổ sung báo cáo benchmark/crash, ADR và báo cáo nhóm; `9705de5` bổ sung script demo, kiến thức CP1–CP5 và vấn đáp. |
+| Hoàn thiện hồ sơ | `b0628f3` bổ sung báo cáo cá nhân Sang, TEAM, ADR; `a9e56a6` đối chiếu năm thành viên, self-check hidden và phần bonus đang chờ. |
+| Tích hợp mới và giải conflict | `2b4859a` đồng bộ PR #12–#14; `117f920` giải conflict PR #16, giữ cả hai bộ test B7 và tách JSON; PR #16 đã merge vào main tại `6d9b8c2`. |
+| Đóng góp Linh | Đưa nguyên test/harness/report từ `268d137` vào main tại `f526841`, giữ tác giả Linh. Sang phụ trách tích hợp, không nhận tác giả phần test/harness. |
 
 Quyết định kỹ thuật: dùng UI tĩnh đọc JSON do công cụ lab sinh; thao tác đổi claim/seed không chạy shape mới. Chi phí là VND mô phỏng, steps là event trace; không suy ra latency. Không đưa raw claim/order, secret hoặc PII lên UI và không sửa tay số liệu JSON.
 
@@ -47,7 +50,11 @@ python -m pytest -q -o addopts= -p no:cacheprovider
 python -m lab8.check_submission
 ```
 
-Sau tích hợp PR #12–#16 và test/harness của Linh (`f526841`), toàn bộ pytest đạt **419 passed, 6 xfailed**. Các xfail là lỗi grader cố ý trong bonus B7, không phải lỗi shape. Đã chạy lại benchmark chuẩn, crash suite 20/20 và báo cáo bonus bằng script. Self-check 600 trial đã có trên main qua PR #14; không có lỗi thực thi/trace/cảnh báo canary nhưng không chứng minh hidden pass rate hoặc approval bypass chính thức.
+Sau tích hợp PR #12–#16, snapshot mã nguồn là **`6d9b8c248509ed1815269e3ff7e9a5c720f6426f`**. Toàn bộ pytest đạt **419 passed, 6 xfailed**; host mặc định **171 passed, 248 deselected, 6 xfailed**; UI **9 passed**. Sáu xfail strict ghi nhận lỗi grader cố ý trong B7, không phải lỗi shape. Code tại merge commit không khác bản `117f920` đã chạy toàn bộ test.
+
+Đã chạy lại benchmark chuẩn 280 trial, crash suite **20/20**, audit permutation và audit isolation bằng script; không sửa tay JSON. Hai bộ B7 dùng file test/output riêng để tránh ghi đè. Self-check **600 trial** từ PR #14 không lỗi thực thi/trace/cảnh báo canary nhưng không chứng minh hidden pass rate hoặc approval bypass chính thức. Nhóm chọn workflow theo public benchmark.
+
+Báo cáo nhóm đã được rút gọn và xuất thử PDF A4 bằng Chrome headless với Segoe UI 10pt, lề 14mm: **3 trang**, dưới giới hạn 5 trang. Đây là cấu hình kiểm tra phân trang, không khẳng định mọi kiểu in đều ra cùng số trang. Chi tiết checklist và các mục ngoài repo ở `report/team/submission_audit.md`.
 
 Sang xử lý conflict TEAM khi đồng bộ main, giữ đầy đủ năm thành viên, tích hợp bằng chứng kỹ thuật của Linh và cập nhật hồ sơ theo PR mới. Merge tích hợp #12–#14 là `2b4859a`; báo cáo bonus #15 cũng được tích hợp. PR #16 được xử lý conflict: giữ hai bộ test B7, tách JSON isolation/permutation và nhận bản sửa checker tên topic B1–B7. Báo cáo chính ở `bonus_report.md`; gate hidden bonus vẫn chờ. Sang xác nhận lớp chính thức L3B và đã nộp link repo trên LMS; chưa có xác nhận nộp LMS của bốn thành viên khác.
 

@@ -4,7 +4,7 @@
 
 - Lớp chính thức: **L3B**, nhóm trưởng đã xác nhận; mẫu SUBMISSION ghi L3A.
 - Năm thành viên: Sang (tích hợp, UI, báo cáo); Nhung (workflow, crash, self-check); Quỳnh Anh (single, B7); Thảo Quyên (orchestrator, handoff, R2); Khánh Linh (swarm đối chứng, ledger, crash, benchmark).
-- Nhánh nộp `main`; snapshot mã nguồn đối chiếu `f526841f182ecec31305ddf6db0750026f6d440a`, trùng ADR. Hồ sơ cập nhật bằng commit sau snapshot này.
+- Nhánh nộp `main`; snapshot mã nguồn đối chiếu `6d9b8c248509ed1815269e3ff7e9a5c720f6426f`, trùng ADR, gồm PR #16 đã giải conflict. Hồ sơ cập nhật bằng commit sau snapshot này.
 - Repo public: https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents
 
 ## 2. Mục tiêu và cách tiếp cận
@@ -79,6 +79,7 @@ python -m lab8.benchmark --shapes workflow,single,orchestrator,swarm --cases dat
 python -m lab8.crash_test --count 20 --out reports/crash.json
 python -m scripts.evaluate_swarm_linh
 python -m bonus.grader_audit_report --out reports/bonus_grader_audit.json
+python -m bonus.grader_audit
 python -m lab8.check_submission
 ```
 
