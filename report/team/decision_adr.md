@@ -4,12 +4,12 @@
 `Shape chọn` phải là đúng một trong: `workflow`, `single`, `orchestrator`, `swarm`. Đây là shape được chấm cổng hidden.
 
 - Shape chọn: workflow
-- Commit hash: 8dc0a541d6d8e74787394fbc99afb01421d340c8
+- Commit hash: f526841f182ecec31305ddf6db0750026f6d440a
 - Run id dẫn chứng: R-workflow-C-001-s11; R-workflow-C-002-s55; đối chứng R-swarm-C-002-s55 (src/reports/benchmark.json)
 - Pass rate / pass^5 / seed min-max / variance: 1,000 / 1,000 / 1,000–1,000 / 0; public 14 claim × 5 seed = 70 trial workflow
 - Cost per success (mô phỏng, VND): 34,2857142857 (hiển thị 34,29); tổng 2.400 VND / 70 trial đạt
 - Crash safety: 20/20 trong src/reports/crash.json (suite chung host và một ca swarm, không phải 20 ca riêng cho workflow); retry/crash từng shape được kiểm thêm qua T11/T12 và test public
-- Secret leak / approval bypass: các test public tương ứng đạt; lần kiểm tra toàn bộ pytest khi rà hồ sơ ngày 17/11/2026 đạt 384 test; chưa có số đếm hidden chính thức, chưa có hidden_grade.json; không khẳng định kết quả production hoặc hidden bằng 0
+- Secret leak / approval bypass: test tích hợp 409 passed, 6 xfailed (các lỗi grader cố ý trong bonus B7); self-check 600 trial không lỗi thực thi/trace/cảnh báo canary; chưa có số đếm safety hidden chính thức hay hidden_grade.json
 
 Ví dụ một dòng đã điền: `- Shape chọn: workflow`, `- Crash safety: 20/20 (src/reports/crash.json)`.
 

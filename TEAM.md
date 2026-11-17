@@ -7,7 +7,7 @@
 - Repo nhóm: `K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo: https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/
 - Nhánh nộp: `main`.
-- Commit mã nguồn đối chiếu: `8dc0a541d6d8e74787394fbc99afb01421d340c8`, trùng ADR; báo cáo bổ sung được commit sau snapshot này.
+- Commit mã nguồn đối chiếu: `f526841f182ecec31305ddf6db0750026f6d440a`, trùng ADR; báo cáo bổ sung được commit sau snapshot này. Lớp L3B đã được nhóm trưởng xác nhận; mẫu SUBMISSION ghi L3A.
 
 ## Thành viên
 
@@ -34,7 +34,7 @@ Gợi ý chia vai:
 | Vũ Ngọc Quỳnh Anh | single | `627a70f`, `3a0a638`, `176a26b` | `src/tests/test_single_react.py`, `src/tests/test_single_extra.py` |
 | Nguyễn Thảo Quyên | orchestrator + handoff | `e95d016`, `a9450b5`, `2c8190a` | `src/tests/test_orchestrator_extra.py` (57 test) |
 | Hồ Nguyễn Minh Sang | Nhóm trưởng; tích hợp/merge, xây UI benchmark và crash safety, chuẩn bị báo cáo và bài nộp | `5022b6f`, `9705de5`, `8dc0a54` | `src/ui/report.test.mjs`, `src/ui/integration.test.mjs`: kiểm cấu trúc báo cáo, phân biệt trial fail/chưa chấm, chọn shape theo chất lượng và chi phí trên cùng claim × seed, đối chiếu chỉ số với JSON thật; lệnh: `node --test src/ui/report.test.mjs src/ui/integration.test.mjs` |
-| Nguyễn Thị Khánh Linh | Swarm đối chứng (phân tích), Ledger, Crash, Benchmark và Report | `268d137` (test và kết quả trên nhánh `linh`); `be7007e` (báo cáo cá nhân, đã merge vào `main` qua PR #12) | `src/tests/test_linh_ledger_swarm.py` trên nhánh `linh`: 18 test case, đã pass |
+| Nguyễn Thị Khánh Linh | Swarm đối chứng, ledger, crash, benchmark và báo cáo | `268d137` (nguồn gốc); `f526841` (tích hợp nguyên test/harness/report vào main, giữ tác giả); `be7007e` (báo cáo, PR #12) | `src/tests/test_linh_ledger_swarm.py`: 18 test case; có trên nhánh nộp main |
 
 ## Cá nhân
 
@@ -78,7 +78,7 @@ Kế hoạch CP dưới đây được đối chiếu với bằng chứng thự
 
 - `src/lab8/shapes/workflow.py`
 - `src/tests/test_workflow_extra.py` — 3 test mới passed; ma trận workflow — 62 test passed, bao gồm T11/T12.
-- CP5: đã tự kiểm trên `student_drop/`; thư mục dữ liệu và kết quả không có trong workspace hiện tại nên không ghi số liệu.
+- CP5: báo cáo nhóm `src/reports/hidden_selfcheck.json` đã có trên main qua PR #14: workflow 200 trial, toàn bộ reason là `unlabeled`, không lỗi thực thi/trace hoặc cảnh báo canary. Không phải điểm hidden chính thức.
 - Commit: `ed62c93` (workflow), `0c141e9` (extra tests), `9da916d` (TEAM.md), `0a02a06` (báo cáo cá nhân)
 - Viết báo cáo cá nhân, ghi công cụ AI đã dùng; nộp link repo trên LMS bằng tài khoản của mình.
 - Làm trên nhánh riêng, mở PR vào `main`; trước mỗi PR chạy `git pull --rebase origin main` rồi `python -m pytest -q`.
@@ -134,4 +134,4 @@ Kế hoạch CP dưới đây được đối chiếu với bằng chứng thự
 - Crash suite: 20/20. Demo cố ý lỗi tạo 2 dòng hoàn tiền, minh họa checkpoint đơn độc không thay thế ledger.
 - [Benchmark Swarm và ablation](https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/blob/linh/src/reports/benchmark_swarm.json): hai nhánh đều 69/70 trial pass, pass^5 13/14; bỏ peer giảm cost/success từ 49,566957 xuống 48,691594 VND mô phỏng. Audit local public trên 70 trial mỗi nhánh ghi 0 secret leak, 0 lộ giá trị nhạy cảm public và 0 approval bypass; không phải hidden grade.
 - Báo cáo cá nhân: commit `be7007e`, [PR #12](https://github.com/Ama2352/K5-L3B-DAY08-ChocoMint-FromWorkflowsToAgents/pull/12), merge commit `9b867dc` trên `main`.
-- Test, harness và benchmark riêng nêu trên hiện ở nhánh `linh`; PR #12 chỉ đưa báo cáo cá nhân vào `main`. Không khai các file này đã được tích hợp vào nhánh nộp.
+- Test, harness và benchmark được tích hợp nguyên bản từ `268d137` vào `main` tại `f526841`, giữ tác giả gốc. PR #12 trước đó chỉ đưa báo cáo cá nhân vào main.

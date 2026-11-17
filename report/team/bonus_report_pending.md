@@ -1,5 +1,7 @@
 # Bonus report: B7
 
+**Trạng thái: đang chờ, chưa đăng ký hồ sơ bonus hoàn chỉnh.** PR #15 cung cấp bản này. `docs/bonus_topics.md` cho phép B7 nhưng `_check_bonus` trong checker gốc chỉ nhận B1–B6; đặt file này ở tên bắt buộc `bonus_report.md` tạo 1 FAIL đã tái hiện. Nhóm giữ đúng nhãn B7, không đổi checker/thước đo hoặc giả tên topic để qua kiểm tra. Khi có hướng dẫn coach, đổi về tên nộp chính thức và chạy lại checker. Chưa có hidden grade để xác nhận gate bonus ≥ 0.80. Bài chính được kiểm riêng trong thời gian chờ.
+
 - Topic + nguồn (tên, năm, slide): B7 · Kiểm toán grader. *Rethinking Evaluation of MAS Efficiency*, EMNLP 2026, slide 44 và 59.
 - CLAIM của nguồn (1 câu): Kết luận về hiệu năng của hệ multi-agent có thể đến từ cách đo, không phải từ hệ thống được đo.
 - BOUNDARY (model / dataset / setup): Paper xét các benchmark MAS dùng LLM thật. Ở đây không có model thật; đối tượng bị kiểm là ba bản hàm `summarize` (`grader_audit/grader_a.py`, `grader_b.py`, `grader_c.py`) chạy trên các fixture nhỏ do giảng viên cung cấp.

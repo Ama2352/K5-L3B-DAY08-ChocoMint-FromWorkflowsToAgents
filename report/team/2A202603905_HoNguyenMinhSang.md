@@ -47,7 +47,9 @@ python -m pytest -q -o addopts= -p no:cacheprovider
 python -m lab8.check_submission
 ```
 
-Lần chạy pytest khi rà hồ sơ ngày 17/11/2026 đạt **384 passed**. Hidden chính thức do giảng viên chấm; self-check không nhãn không chứng minh hidden pass rate hoặc approval bypass chính thức. Push cuối và nộp LMS bằng tài khoản cá nhân cần được xác nhận riêng.
+Sau tích hợp PR #12–#15 và test/harness của Linh (`f526841`), toàn bộ pytest đạt **409 passed, 6 xfailed**. Các xfail là lỗi grader cố ý trong bonus B7, không phải lỗi shape. Đã chạy lại benchmark chuẩn, crash suite 20/20 và báo cáo bonus bằng script. Self-check 600 trial đã có trên main qua PR #14; không có lỗi thực thi/trace/cảnh báo canary nhưng không chứng minh hidden pass rate hoặc approval bypass chính thức.
+
+Sang xử lý conflict TEAM khi đồng bộ main, giữ đầy đủ năm thành viên, tích hợp bằng chứng kỹ thuật của Linh và cập nhật hồ sơ theo PR mới. Merge tích hợp #12–#14 là `2b4859a`; báo cáo bonus #15 cũng được tích hợp. B7 đang chờ hướng dẫn tương thích checker, được lưu ở `bonus_report_pending.md`, chưa khai đủ điều kiện nhận bonus. Sang xác nhận lớp chính thức L3B và đã nộp link repo trên LMS; chưa có xác nhận nộp LMS của bốn thành viên khác.
 
 ## 5. Công cụ AI đã dùng
 

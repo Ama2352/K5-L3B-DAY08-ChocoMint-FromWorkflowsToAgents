@@ -56,8 +56,8 @@
       "seed_variance": 0.0008163265306122443,
       "seed_min": 0.9285714285714286,
       "seed_max": 1.0,
-      "cost_per_success_vnd": 49.56695652173912,
-      "total_simulated_cost_vnd": 3420.1199999999994,
+      "cost_per_success_vnd": 49.56695652173913,
+      "total_simulated_cost_vnd": 3420.12,
       "mean_steps": 2.8,
       "p95_steps": 3.0,
       "mean_model_calls": 3.0,
@@ -1051,8 +1051,8 @@
           "seed_variance": 0.0008163265306122443,
           "seed_min": 0.9285714285714286,
           "seed_max": 1.0,
-          "cost_per_success_vnd": 48.6915942028986,
-          "total_simulated_cost_vnd": 3359.7200000000034,
+          "cost_per_success_vnd": 48.69159420289855,
+          "total_simulated_cost_vnd": 3359.72,
           "mean_steps": 2.8,
           "p95_steps": 3.0,
           "mean_model_calls": 2.0,
@@ -1987,6 +1987,6 @@
     },
     "paired_business_outcomes_equal": true,
     "paired_grades_equal": true,
-    "total_cost_saved_vnd": 60.399999999996
+    "total_cost_saved_vnd": 60.40000000000009
   }
 }
