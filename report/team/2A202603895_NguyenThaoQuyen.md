@@ -1,8 +1,8 @@
-# Báo cáo cá nhân — 2A202603895_ThaoQuyen
+# Báo cáo cá nhân — 2A202603895_NguyenThaoQuyen
 
 ## 1. Thông tin thành viên
 
-- Họ tên: Thảo Quyên
+- Họ tên: Nguyễn Thảo Quyên
 - MSSV: 2A202603895
 - Email: thquyen100678@gmail.com
 - GitHub: carwyn100678
