@@ -18,7 +18,7 @@ Shape A — workflow trong [`src/lab8/shapes/workflow.py`](../../src/lab8/shapes
 - Chuyển `crash_at` tới `issue_refund`, không nuốt lỗi crash; kiểm tra retry/crash qua T11/T12.
 - Thêm [`src/tests/test_workflow_extra.py`](../../src/tests/test_workflow_extra.py), kiểm tra approval bị thu hồi, approval thuộc claim khác và đơn đã hoàn đủ.
 - Tự kiểm shape workflow trên bộ `student_drop/` theo CP5.
-- Commit chính: Chưa commit.
+- Commit chính: `ed62c93` (workflow), `0c141e9` (extra tests), `9da916d` (TEAM.md), `0a02a06` (báo cáo cá nhân)
 
 ## 4. Bằng chứng
 
