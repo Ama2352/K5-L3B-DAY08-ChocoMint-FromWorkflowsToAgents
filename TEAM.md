@@ -11,8 +11,14 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-| 1 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | https://github.com/Ama2352 | Nhóm trưởng; merge + build UI + nộp bài; nhánh `sang` |
+| 1 | Hồ Nguyễn Minh Sang | 2A202603905 | 26ai.sanghnm@vinuni.edu.vn | Ama2352 | Nhóm trưởng; merge + build UI + nộp bài |
 | 2 | | | | | |
+| 3 |  Vũ Ngọc Quỳnh Anh  | 2A202603875 | 26ai.anhvnq@vinuni.edu.vn  | qavu2407-lang | single |
+
+Gợi ý chia vai:
+
+- Nhóm 6 người: integration; workflow; single agent; orchestrator; ledger/policy/crash; eval/report.
+- Nhóm 4 người: workflow + integration; single; orchestrator + handoff; ledger + evaluation.
 
 ## Bảng đóng góp
 
